@@ -12,6 +12,14 @@ import {
 } from "@/lib/scoring";
 import { calculateGasToPower } from "@/lib/gasToPower";
 import { calculateFinancialScreen } from "@/lib/financial";
+import {
+  calculateSeverity,
+  generateDefaultRisks,
+  impactLevels,
+  probabilityLevels,
+  riskCategories,
+  riskStatuses,
+} from "@/lib/risks";
 
 function text(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -48,6 +56,19 @@ function numberValue(formData: FormData, name: string) {
 
 function checkbox(formData: FormData, name: string) {
   return formData.get(name) === "on";
+}
+
+function optionValue<const T extends readonly string[]>(
+  formData: FormData,
+  name: string,
+  allowed: T,
+) {
+  const value = text(formData, name);
+  if (!value || !allowed.includes(value)) {
+    throw new Error(`${name} is invalid`);
+  }
+
+  return value;
 }
 
 function opportunityData(formData: FormData) {
@@ -349,4 +370,80 @@ export async function saveFinancialScreenResult(id: string, formData: FormData) 
   revalidatePath(`/opportunities/${id}`);
   revalidatePath(`/opportunities/${id}/financial`);
   redirect(`/opportunities/${id}/financial`);
+}
+
+function riskData(formData: FormData) {
+  const probability = optionValue(formData, "probability", probabilityLevels);
+  const impact = optionValue(formData, "impact", impactLevels);
+
+  return {
+    category: optionValue(formData, "category", riskCategories),
+    riskDescription: requiredText(formData, "riskDescription"),
+    probability,
+    impact,
+    severityScore: calculateSeverity(probability, impact),
+    mitigation: requiredText(formData, "mitigation"),
+    owner: text(formData, "owner"),
+    nextAction: text(formData, "nextAction"),
+    status: optionValue(formData, "status", riskStatuses),
+  };
+}
+
+export async function createRisk(id: string, formData: FormData) {
+  await prisma.riskItem.create({
+    data: {
+      opportunityId: id,
+      ...riskData(formData),
+    },
+  });
+
+  revalidatePath(`/opportunities/${id}/risks`);
+  redirect(`/opportunities/${id}/risks`);
+}
+
+export async function updateRisk(id: string, riskId: string, formData: FormData) {
+  await prisma.riskItem.update({
+    where: { id: riskId },
+    data: riskData(formData),
+  });
+
+  revalidatePath(`/opportunities/${id}/risks`);
+  redirect(`/opportunities/${id}/risks`);
+}
+
+export async function deleteRisk(id: string, riskId: string) {
+  await prisma.riskItem.delete({
+    where: { id: riskId },
+  });
+
+  revalidatePath(`/opportunities/${id}/risks`);
+  redirect(`/opportunities/${id}/risks`);
+}
+
+export async function generateRisks(id: string) {
+  const opportunity = await prisma.opportunity.findUnique({
+    where: { id },
+    include: {
+      resourceData: true,
+      infrastructureData: true,
+      commercialData: true,
+      regulatoryData: true,
+    },
+  });
+
+  if (!opportunity) {
+    throw new Error("Opportunity not found");
+  }
+
+  const risks = generateDefaultRisks(opportunity);
+
+  await prisma.riskItem.createMany({
+    data: risks.map((risk) => ({
+      opportunityId: id,
+      ...risk,
+    })),
+  });
+
+  revalidatePath(`/opportunities/${id}/risks`);
+  redirect(`/opportunities/${id}/risks`);
 }
