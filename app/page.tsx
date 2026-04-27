@@ -44,6 +44,12 @@ export default async function Home() {
         },
         take: 1,
       },
+      financialScreenResults: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
     },
   });
 
@@ -108,6 +114,7 @@ export default async function Home() {
                     const deleteAction = deleteOpportunity.bind(null, opportunity.id);
                     const latestScore = opportunity.scoringResults[0];
                     const latestGasToPower = opportunity.gasToPowerResults[0];
+                    const latestFinancial = opportunity.financialScreenResults[0];
 
                     return (
                       <tr className="align-top transition hover:bg-zinc-50" key={opportunity.id}>
@@ -134,8 +141,16 @@ export default async function Home() {
                             ? `${latestGasToPower.recommendedMw.toFixed(1)} MW`
                             : "Not calculated"}
                         </td>
-                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
-                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-700">
+                          {latestFinancial
+                            ? `$${(latestFinancial.totalCapexBase / 1_000_000).toFixed(1)}M`
+                            : "Not calculated"}
+                        </td>
+                        <td className="px-4 py-3 text-zinc-700">
+                          {latestFinancial
+                            ? `$${(latestFinancial.ebitda / 1_000_000).toFixed(1)}M`
+                            : "Not calculated"}
+                        </td>
                         <td className="px-4 py-3 text-zinc-700">
                           {formatDate(opportunity.updatedAt)}
                         </td>
@@ -158,6 +173,12 @@ export default async function Home() {
                               href={`/opportunities/${opportunity.id}/gas-to-power`}
                             >
                               G2P
+                            </Link>
+                            <Link
+                              className="inline-flex h-8 items-center justify-center rounded-md border border-violet-200 px-3 text-xs font-semibold text-violet-700 transition hover:bg-violet-50"
+                              href={`/opportunities/${opportunity.id}/financial`}
+                            >
+                              Financial
                             </Link>
                             <form action={deleteAction}>
                               <button

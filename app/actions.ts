@@ -11,6 +11,7 @@ import {
   type CategoryScores,
 } from "@/lib/scoring";
 import { calculateGasToPower } from "@/lib/gasToPower";
+import { calculateFinancialScreen } from "@/lib/financial";
 
 function text(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -303,4 +304,49 @@ export async function saveGasToPowerResult(id: string, formData: FormData) {
   revalidatePath(`/opportunities/${id}`);
   revalidatePath(`/opportunities/${id}/gas-to-power`);
   redirect(`/opportunities/${id}/gas-to-power`);
+}
+
+export async function saveFinancialScreenResult(id: string, formData: FormData) {
+  const result = calculateFinancialScreen({
+    projectSizeMw: requiredNumber(formData, "projectSizeMw"),
+    annualMwh: requiredNumber(formData, "annualMwh"),
+    powerPriceUsdMwh: requiredNumber(formData, "powerPriceUsdMwh"),
+    gasPriceUsdMmbtu: requiredNumber(formData, "gasPriceUsdMmbtu"),
+    annualFuelMmbtu: requiredNumber(formData, "annualFuelMmbtu"),
+    capexPerKwLow: requiredNumber(formData, "capexPerKwLow"),
+    capexPerKwBase: requiredNumber(formData, "capexPerKwBase"),
+    capexPerKwHigh: requiredNumber(formData, "capexPerKwHigh"),
+    fixedOpexUsdKwYear: requiredNumber(formData, "fixedOpexUsdKwYear"),
+    variableOpexUsdMwh: requiredNumber(formData, "variableOpexUsdMwh"),
+  });
+
+  await prisma.financialScreenResult.create({
+    data: {
+      opportunityId: id,
+      projectSizeMw: result.projectSizeMw,
+      capexPerKwLow: result.capexPerKwLow,
+      capexPerKwBase: result.capexPerKwBase,
+      capexPerKwHigh: result.capexPerKwHigh,
+      totalCapexLow: result.totalCapexLow,
+      totalCapexBase: result.totalCapexBase,
+      totalCapexHigh: result.totalCapexHigh,
+      powerPriceUsdMwh: result.powerPriceUsdMwh,
+      annualMwh: result.annualMwh,
+      annualRevenue: result.annualRevenue,
+      gasPriceUsdMmbtu: result.gasPriceUsdMmbtu,
+      annualFuelCost: result.annualFuelCost,
+      fixedOpexUsdKwYear: result.fixedOpexUsdKwYear,
+      variableOpexUsdMwh: result.variableOpexUsdMwh,
+      annualFixedOpex: result.annualFixedOpex,
+      annualVariableOpex: result.annualVariableOpex,
+      totalAnnualOpex: result.totalAnnualOpex,
+      ebitda: result.ebitda,
+      simplePaybackYears: result.simplePaybackYears,
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath(`/opportunities/${id}`);
+  revalidatePath(`/opportunities/${id}/financial`);
+  redirect(`/opportunities/${id}/financial`);
 }
