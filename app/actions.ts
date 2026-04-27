@@ -3,6 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import {
+  calculateTotalScore,
+  classifyOpportunity,
+  clamp,
+  generateRecommendation,
+  type CategoryScores,
+} from "@/lib/scoring";
 
 function text(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -208,4 +215,45 @@ export async function deleteOpportunity(id: string) {
 
   revalidatePath("/");
   redirect("/");
+}
+
+function scoreValue(formData: FormData, name: string) {
+  const value = numberValue(formData, name);
+  if (value == null) {
+    throw new Error(`${name} is required`);
+  }
+
+  return clamp(value);
+}
+
+export async function saveOpportunityScore(id: string, formData: FormData) {
+  const scores: CategoryScores = {
+    resourceQualityScore: scoreValue(formData, "resourceQualityScore"),
+    infrastructureScore: scoreValue(formData, "infrastructureScore"),
+    marketDemandScore: scoreValue(formData, "marketDemandScore"),
+    technicalFeasibilityScore: scoreValue(formData, "technicalFeasibilityScore"),
+    commercialControlScore: scoreValue(formData, "commercialControlScore"),
+    regulatoryFeasibilityScore: scoreValue(formData, "regulatoryFeasibilityScore"),
+    economicPotentialScore: scoreValue(formData, "economicPotentialScore"),
+    speedToExecuteScore: scoreValue(formData, "speedToExecuteScore"),
+    strategicRepeatabilityScore: scoreValue(formData, "strategicRepeatabilityScore"),
+    counterpartySeriousnessScore: scoreValue(formData, "counterpartySeriousnessScore"),
+  };
+  const totalScore = calculateTotalScore(scores);
+  const classification = classifyOpportunity(totalScore);
+
+  await prisma.scoringResult.create({
+    data: {
+      opportunityId: id,
+      ...scores,
+      totalScore,
+      classification,
+      recommendation: generateRecommendation(totalScore, classification),
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath(`/opportunities/${id}`);
+  revalidatePath(`/opportunities/${id}/score`);
+  redirect(`/opportunities/${id}/score`);
 }

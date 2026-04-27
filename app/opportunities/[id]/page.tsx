@@ -40,14 +40,22 @@ export default async function OpportunityDetailPage({
               Edit the opportunity record and its resource, infrastructure, commercial, and regulatory data.
             </p>
           </div>
-          <form action={deleteAction}>
-            <button
-              className="inline-flex h-10 items-center justify-center rounded-md border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50"
-              type="submit"
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
+              href={`/opportunities/${opportunity.id}/score`}
             >
-              Delete
-            </button>
-          </form>
+              Score Opportunity
+            </Link>
+            <form action={deleteAction}>
+              <button
+                className="inline-flex h-10 items-center justify-center rounded-md border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50"
+                type="submit"
+              >
+                Delete
+              </button>
+            </form>
+          </div>
         </div>
 
         <OpportunityForm

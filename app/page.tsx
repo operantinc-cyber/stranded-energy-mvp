@@ -31,6 +31,14 @@ export default async function Home() {
     orderBy: {
       updatedAt: "desc",
     },
+    include: {
+      scoringResults: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
+    },
   });
 
   return (
@@ -92,6 +100,7 @@ export default async function Home() {
                 <tbody className="divide-y divide-zinc-200">
                   {opportunities.map((opportunity) => {
                     const deleteAction = deleteOpportunity.bind(null, opportunity.id);
+                    const latestScore = opportunity.scoringResults[0];
 
                     return (
                       <tr className="align-top transition hover:bg-zinc-50" key={opportunity.id}>
@@ -107,8 +116,12 @@ export default async function Home() {
                             {opportunity.status}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
-                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-700">
+                          {latestScore ? Math.round(latestScore.totalScore) : "Not calculated"}
+                        </td>
+                        <td className="px-4 py-3 text-zinc-700">
+                          {latestScore?.classification ?? "Not calculated"}
+                        </td>
                         <td className="px-4 py-3 text-zinc-500">Not calculated</td>
                         <td className="px-4 py-3 text-zinc-500">Not calculated</td>
                         <td className="px-4 py-3 text-zinc-500">Not calculated</td>
@@ -122,6 +135,12 @@ export default async function Home() {
                               href={`/opportunities/${opportunity.id}`}
                             >
                               Edit
+                            </Link>
+                            <Link
+                              className="inline-flex h-8 items-center justify-center rounded-md border border-emerald-200 px-3 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-50"
+                              href={`/opportunities/${opportunity.id}/score`}
+                            >
+                              Score
                             </Link>
                             <form action={deleteAction}>
                               <button
