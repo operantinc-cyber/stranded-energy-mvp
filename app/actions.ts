@@ -447,3 +447,24 @@ export async function generateRisks(id: string) {
   revalidatePath(`/opportunities/${id}/risks`);
   redirect(`/opportunities/${id}/risks`);
 }
+
+export async function setPreferredMonetization(id: string, formData: FormData) {
+  const preferredOption = requiredText(formData, "preferredOption");
+
+  await prisma.projectMemo.upsert({
+    where: {
+      opportunityId: id,
+    },
+    create: {
+      opportunityId: id,
+      recommendedConcept: preferredOption,
+    },
+    update: {
+      recommendedConcept: preferredOption,
+    },
+  });
+
+  revalidatePath(`/opportunities/${id}`);
+  revalidatePath(`/opportunities/${id}/monetization`);
+  redirect(`/opportunities/${id}/monetization`);
+}

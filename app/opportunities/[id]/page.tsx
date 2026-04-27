@@ -65,6 +65,12 @@ export default async function OpportunityDetailPage({
             >
               Risks
             </Link>
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-teal-200 px-4 text-sm font-semibold text-teal-700 transition hover:bg-teal-50"
+              href={`/opportunities/${opportunity.id}/monetization`}
+            >
+              Monetization
+            </Link>
             <form action={deleteAction}>
               <button
                 className="inline-flex h-10 items-center justify-center rounded-md border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50"
