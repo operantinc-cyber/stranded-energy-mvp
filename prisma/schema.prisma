@@ -1,13 +1,245 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
+}
+
+model Opportunity {
+  id              String   @id @default(cuid())
+  name            String
+  locationCountry String?
+  locationState   String?
+  locationCity    String?
+  latitude        Float?
+  longitude       Float?
+  assetType       String
+  ownerName       String?
+  operatorName    String?
+  contactName     String?
+  contactEmail    String?
+  status          String   @default("New")
+  description     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  resourceData           ResourceData?
+  infrastructureData     InfrastructureData?
+  commercialData         CommercialData?
+  regulatoryData         RegulatoryData?
+  scoringResults         ScoringResult[]
+  gasToPowerResults      GasToPowerResult[]
+  financialScreenResults FinancialScreenResult[]
+  risks                  RiskItem[]
+  projectMemo            ProjectMemo?
+}
+
+model ResourceData {
+  id            String @id @default(cuid())
+  opportunityId String @unique
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  availableGasMMscfd        Float?
+  gasHeatingValueBtuScf     Float?
+  gasPressurePsig           Float?
+  gasTemperatureF           Float?
+  methanePercent            Float?
+  ethanePercent             Float?
+  propanePercent            Float?
+  co2Percent                Float?
+  h2sPpm                    Float?
+  nitrogenPercent           Float?
+  liquidsContent            String?
+  currentGasUse             String?
+  currentGasPriceUsdMmbtu   Float?
+  flareStatus               String?
+  shutInStatus              String?
+  productionStability       String?
+  oilProductionBopd         Float?
+  waterProductionBwpd       Float?
+  waterCutPercent           Float?
+  notes                     String?
+}
+
+model InfrastructureData {
+  id            String @id @default(cuid())
+  opportunityId String @unique
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  distanceToPipelineMiles       Float?
+  distanceToPowerLineMiles      Float?
+  distanceToSubstationMiles     Float?
+  distanceToRoadMiles           Float?
+  distanceToFiberMiles          Float?
+  distanceToIndustrialLoadMiles Float?
+  distanceToDataCenterMiles     Float?
+
+  landAvailable             Boolean @default(false)
+  landOwnershipKnown        Boolean @default(false)
+  waterAvailable            Boolean @default(false)
+  existingFacilities        Boolean @default(false)
+  existingPowerInfrastructure Boolean @default(false)
+  existingGasProcessing     Boolean @default(false)
+  existingCompression       Boolean @default(false)
+
+  siteAccessQuality String?
+  notes             String?
+}
+
+model CommercialData {
+  id            String @id @default(cuid())
+  opportunityId String @unique
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  gasOwnerKnown            Boolean @default(false)
+  landOwnerKnown           Boolean @default(false)
+  mineralRightsKnown       Boolean @default(false)
+  existingGasContract      Boolean @default(false)
+  existingPowerOfftaker    Boolean @default(false)
+  nearbyIndustrialOfftaker Boolean @default(false)
+  interestedCounterparty   Boolean @default(false)
+
+  preferredCommercialModel       String?
+  targetPowerPriceUsdMwh         Float?
+  targetGasPriceUsdMmbtu         Float?
+  expectedCapacityFactorPercent  Float?
+  notes                          String?
+}
+
+model RegulatoryData {
+  id            String @id @default(cuid())
+  opportunityId String @unique
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  existingPermits          Boolean @default(false)
+  airPermitRequired        Boolean @default(false)
+  waterPermitRequired      Boolean @default(false)
+  landUseApprovalRequired  Boolean @default(false)
+  interconnectionRequired  Boolean @default(false)
+  environmentalIssuesKnown Boolean @default(false)
+  communityIssuesKnown     Boolean @default(false)
+  securityIssuesKnown      Boolean @default(false)
+
+  permittingComplexity    String?
+  expectedPermittingMonths Float?
+  notes                   String?
+}
+
+model ScoringResult {
+  id            String @id @default(cuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  resourceQualityScore        Float
+  infrastructureScore         Float
+  marketDemandScore           Float
+  technicalFeasibilityScore   Float
+  commercialControlScore      Float
+  regulatoryFeasibilityScore  Float
+  economicPotentialScore      Float
+  speedToExecuteScore         Float
+  strategicRepeatabilityScore Float
+  counterpartySeriousnessScore Float
+
+  totalScore     Float
+  classification String
+  recommendation String?
+  createdAt      DateTime @default(now())
+}
+
+model GasToPowerResult {
+  id            String @id @default(cuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  availableGasMMscfd          Float
+  heatingValueBtuScf          Float
+  generatorHeatRateBtuKwh     Float
+  assumedAvailabilityPercent  Float
+  parasiticLoadPercent        Float
+
+  theoreticalMw       Float
+  practicalMwLow      Float
+  practicalMwHigh     Float
+  recommendedMw       Float
+  annualMwh           Float
+  fuelEnergyMmbtuDay  Float
+  fuelEnergyMmbtuYear Float
+
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model FinancialScreenResult {
+  id            String @id @default(cuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  projectSizeMw       Float
+  capexPerKwLow       Float
+  capexPerKwBase      Float
+  capexPerKwHigh      Float
+
+  totalCapexLow       Float
+  totalCapexBase      Float
+  totalCapexHigh      Float
+
+  powerPriceUsdMwh    Float
+  annualMwh           Float
+  annualRevenue       Float
+
+  gasPriceUsdMmbtu    Float
+  annualFuelCost      Float
+
+  fixedOpexUsdKwYear  Float
+  variableOpexUsdMwh  Float
+  annualFixedOpex     Float
+  annualVariableOpex  Float
+  totalAnnualOpex     Float
+
+  ebitda              Float
+  simplePaybackYears  Float?
+
+  createdAt DateTime @default(now())
+}
+
+model RiskItem {
+  id            String @id @default(cuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  category        String
+  riskDescription String
+  probability     String
+  impact          String
+  severityScore   Int
+  mitigation      String
+  owner           String?
+  nextAction      String?
+  status          String @default("Open")
+}
+
+model ProjectMemo {
+  id            String @id @default(cuid())
+  opportunityId String @unique
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+
+  executiveSummary       String?
+  assetDescription       String?
+  resourceBasis          String?
+  infrastructureReview   String?
+  monetizationOptions    String?
+  recommendedConcept     String?
+  technicalDesign        String?
+  commercialStructure    String?
+  financialSummary       String?
+  riskSummary            String?
+  developmentRoadmap     String?
+  goNoGoRecommendation   String?
+  nextActions            String?
+
+  memoStatus String   @default("Draft")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
