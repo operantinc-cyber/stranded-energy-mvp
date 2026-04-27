@@ -10,6 +10,7 @@ import {
   generateRecommendation,
   type CategoryScores,
 } from "@/lib/scoring";
+import { calculateGasToPower } from "@/lib/gasToPower";
 
 function text(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -256,4 +257,50 @@ export async function saveOpportunityScore(id: string, formData: FormData) {
   revalidatePath(`/opportunities/${id}`);
   revalidatePath(`/opportunities/${id}/score`);
   redirect(`/opportunities/${id}/score`);
+}
+
+function requiredNumber(formData: FormData, name: string) {
+  const value = numberValue(formData, name);
+  if (value == null) {
+    throw new Error(`${name} is required`);
+  }
+
+  return value;
+}
+
+export async function saveGasToPowerResult(id: string, formData: FormData) {
+  const result = calculateGasToPower({
+    availableGasMMscfd: requiredNumber(formData, "availableGasMMscfd"),
+    heatingValueBtuScf: requiredNumber(formData, "heatingValueBtuScf"),
+    generatorHeatRateBtuKwh: requiredNumber(
+      formData,
+      "generatorHeatRateBtuKwh",
+    ),
+    availabilityPercent: requiredNumber(formData, "availabilityPercent"),
+    parasiticLoadPercent: requiredNumber(formData, "parasiticLoadPercent"),
+  });
+
+  await prisma.gasToPowerResult.create({
+    data: {
+      opportunityId: id,
+      availableGasMMscfd: result.availableGasMMscfd,
+      heatingValueBtuScf: result.heatingValueBtuScf,
+      generatorHeatRateBtuKwh: result.generatorHeatRateBtuKwh,
+      assumedAvailabilityPercent: result.availabilityPercent,
+      parasiticLoadPercent: result.parasiticLoadPercent,
+      theoreticalMw: result.theoreticalMw,
+      practicalMwLow: result.practicalMwLow,
+      practicalMwHigh: result.practicalMwHigh,
+      recommendedMw: result.recommendedMw,
+      annualMwh: result.annualMwh,
+      fuelEnergyMmbtuDay: result.fuelEnergyMmbtuDay,
+      fuelEnergyMmbtuYear: result.fuelEnergyMmbtuYear,
+      notes: text(formData, "notes"),
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath(`/opportunities/${id}`);
+  revalidatePath(`/opportunities/${id}/gas-to-power`);
+  redirect(`/opportunities/${id}/gas-to-power`);
 }

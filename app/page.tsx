@@ -38,6 +38,12 @@ export default async function Home() {
         },
         take: 1,
       },
+      gasToPowerResults: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
     },
   });
 
@@ -101,6 +107,7 @@ export default async function Home() {
                   {opportunities.map((opportunity) => {
                     const deleteAction = deleteOpportunity.bind(null, opportunity.id);
                     const latestScore = opportunity.scoringResults[0];
+                    const latestGasToPower = opportunity.gasToPowerResults[0];
 
                     return (
                       <tr className="align-top transition hover:bg-zinc-50" key={opportunity.id}>
@@ -122,7 +129,11 @@ export default async function Home() {
                         <td className="px-4 py-3 text-zinc-700">
                           {latestScore?.classification ?? "Not calculated"}
                         </td>
-                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-700">
+                          {latestGasToPower
+                            ? `${latestGasToPower.recommendedMw.toFixed(1)} MW`
+                            : "Not calculated"}
+                        </td>
                         <td className="px-4 py-3 text-zinc-500">Not calculated</td>
                         <td className="px-4 py-3 text-zinc-500">Not calculated</td>
                         <td className="px-4 py-3 text-zinc-700">
@@ -141,6 +152,12 @@ export default async function Home() {
                               href={`/opportunities/${opportunity.id}/score`}
                             >
                               Score
+                            </Link>
+                            <Link
+                              className="inline-flex h-8 items-center justify-center rounded-md border border-blue-200 px-3 text-xs font-semibold text-blue-700 transition hover:bg-blue-50"
+                              href={`/opportunities/${opportunity.id}/gas-to-power`}
+                            >
+                              G2P
                             </Link>
                             <form action={deleteAction}>
                               <button

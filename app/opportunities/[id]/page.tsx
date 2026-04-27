@@ -47,6 +47,12 @@ export default async function OpportunityDetailPage({
             >
               Score Opportunity
             </Link>
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-blue-200 px-4 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
+              href={`/opportunities/${opportunity.id}/gas-to-power`}
+            >
+              Gas-to-Power
+            </Link>
             <form action={deleteAction}>
               <button
                 className="inline-flex h-10 items-center justify-center rounded-md border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50"
