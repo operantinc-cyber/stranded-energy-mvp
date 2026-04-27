@@ -71,6 +71,12 @@ export default async function OpportunityDetailPage({
             >
               Monetization
             </Link>
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
+              href={`/opportunities/${opportunity.id}/memo`}
+            >
+              Memo
+            </Link>
             <form action={deleteAction}>
               <button
                 className="inline-flex h-10 items-center justify-center rounded-md border border-red-200 px-4 text-sm font-semibold text-red-700 transition hover:bg-red-50"

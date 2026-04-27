@@ -20,6 +20,7 @@ import {
   riskCategories,
   riskStatuses,
 } from "@/lib/risks";
+import { generateProjectMemo } from "@/lib/memo";
 
 function text(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -467,4 +468,94 @@ export async function setPreferredMonetization(id: string, formData: FormData) {
   revalidatePath(`/opportunities/${id}`);
   revalidatePath(`/opportunities/${id}/monetization`);
   redirect(`/opportunities/${id}/monetization`);
+}
+
+function projectMemoData(formData: FormData) {
+  return {
+    executiveSummary: text(formData, "executiveSummary"),
+    assetDescription: text(formData, "assetDescription"),
+    resourceBasis: text(formData, "resourceBasis"),
+    infrastructureReview: text(formData, "infrastructureReview"),
+    monetizationOptions: text(formData, "monetizationOptions"),
+    recommendedConcept: text(formData, "recommendedConcept"),
+    technicalDesign: text(formData, "technicalDesign"),
+    commercialStructure: text(formData, "commercialStructure"),
+    financialSummary: text(formData, "financialSummary"),
+    riskSummary: text(formData, "riskSummary"),
+    developmentRoadmap: text(formData, "developmentRoadmap"),
+    goNoGoRecommendation: text(formData, "goNoGoRecommendation"),
+    nextActions: text(formData, "nextActions"),
+    memoStatus: text(formData, "memoStatus") ?? "Draft",
+  };
+}
+
+async function memoBundle(id: string) {
+  const opportunity = await prisma.opportunity.findUnique({
+    where: { id },
+    include: {
+      resourceData: true,
+      infrastructureData: true,
+      commercialData: true,
+      regulatoryData: true,
+      scoringResults: {
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+      gasToPowerResults: {
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+      financialScreenResults: {
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+      risks: {
+        orderBy: { severityScore: "desc" },
+      },
+      projectMemo: true,
+    },
+  });
+
+  if (!opportunity) {
+    throw new Error("Opportunity not found");
+  }
+
+  return opportunity;
+}
+
+export async function generateAndSaveProjectMemo(id: string) {
+  const opportunity = await memoBundle(id);
+  const memo = generateProjectMemo(opportunity);
+
+  await prisma.projectMemo.upsert({
+    where: { opportunityId: id },
+    create: {
+      opportunityId: id,
+      ...memo,
+      memoStatus: "Draft",
+    },
+    update: {
+      ...memo,
+      memoStatus: opportunity.projectMemo?.memoStatus ?? "Draft",
+    },
+  });
+
+  revalidatePath(`/opportunities/${id}`);
+  revalidatePath(`/opportunities/${id}/memo`);
+  redirect(`/opportunities/${id}/memo`);
+}
+
+export async function saveProjectMemo(id: string, formData: FormData) {
+  await prisma.projectMemo.upsert({
+    where: { opportunityId: id },
+    create: {
+      opportunityId: id,
+      ...projectMemoData(formData),
+    },
+    update: projectMemoData(formData),
+  });
+
+  revalidatePath(`/opportunities/${id}`);
+  revalidatePath(`/opportunities/${id}/memo`);
+  redirect(`/opportunities/${id}/memo`);
 }
