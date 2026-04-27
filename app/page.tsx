@@ -1,65 +1,147 @@
-import Image from "next/image";
+import Link from "next/link";
+import { deleteOpportunity } from "@/app/actions";
+import { prisma } from "@/lib/db";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+function locationLabel(opportunity: {
+  locationCity: string | null;
+  locationState: string | null;
+  locationCountry: string | null;
+}) {
+  const parts = [
+    opportunity.locationCity,
+    opportunity.locationState,
+    opportunity.locationCountry,
+  ].filter(Boolean);
+
+  return parts.length > 0 ? parts.join(", ") : "Not provided";
+}
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(date);
+}
+
+export default async function Home() {
+  const opportunities = await prisma.opportunity.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-950 sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-6">
+        <div className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-6 shadow-sm sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+              Stranded Energy MVP
+            </p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+              Opportunity Dashboard
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-zinc-600">
+              Track early-stage energy opportunities and maintain the input data needed for later scoring.
+            </p>
+          </div>
+          <Link
+            className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
+            href="/opportunities/new"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            New Opportunity
+          </Link>
         </div>
-      </main>
-    </div>
+
+        <section className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
+          <div className="border-b border-zinc-200 px-5 py-4">
+            <h2 className="text-lg font-semibold">Opportunities</h2>
+          </div>
+
+          {opportunities.length === 0 ? (
+            <div className="grid gap-3 px-5 py-10 text-center">
+              <p className="text-sm text-zinc-600">No opportunities have been created yet.</p>
+              <Link
+                className="mx-auto inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
+                href="/opportunities/new"
+              >
+                Create the first opportunity
+              </Link>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-zinc-200 text-left text-sm">
+                <thead className="bg-zinc-50 text-xs font-semibold uppercase tracking-wide text-zinc-600">
+                  <tr>
+                    <th className="px-4 py-3">Name</th>
+                    <th className="px-4 py-3">Asset Type</th>
+                    <th className="px-4 py-3">Location</th>
+                    <th className="px-4 py-3">Status</th>
+                    <th className="px-4 py-3">Score</th>
+                    <th className="px-4 py-3">Classification</th>
+                    <th className="px-4 py-3">Recommended MW</th>
+                    <th className="px-4 py-3">Estimated Capex</th>
+                    <th className="px-4 py-3">EBITDA</th>
+                    <th className="px-4 py-3">Last Updated</th>
+                    <th className="px-4 py-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-200">
+                  {opportunities.map((opportunity) => {
+                    const deleteAction = deleteOpportunity.bind(null, opportunity.id);
+
+                    return (
+                      <tr className="align-top transition hover:bg-zinc-50" key={opportunity.id}>
+                        <td className="px-4 py-3 font-medium text-zinc-950">
+                          {opportunity.name}
+                        </td>
+                        <td className="px-4 py-3 text-zinc-700">{opportunity.assetType}</td>
+                        <td className="px-4 py-3 text-zinc-700">
+                          {locationLabel(opportunity)}
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className="inline-flex rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-emerald-100">
+                            {opportunity.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-500">Not calculated</td>
+                        <td className="px-4 py-3 text-zinc-700">
+                          {formatDate(opportunity.updatedAt)}
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-2">
+                            <Link
+                              className="inline-flex h-8 items-center justify-center rounded-md border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 transition hover:bg-white"
+                              href={`/opportunities/${opportunity.id}`}
+                            >
+                              Edit
+                            </Link>
+                            <form action={deleteAction}>
+                              <button
+                                className="inline-flex h-8 items-center justify-center rounded-md border border-red-200 px-3 text-xs font-semibold text-red-700 transition hover:bg-red-50"
+                                type="submit"
+                              >
+                                Delete
+                              </button>
+                            </form>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      </div>
+    </main>
   );
 }
