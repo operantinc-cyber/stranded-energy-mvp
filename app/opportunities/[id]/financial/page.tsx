@@ -32,11 +32,13 @@ function Field({
   name,
   defaultValue,
   suffix,
+  min,
 }: {
   label: string;
   name: string;
   defaultValue: number;
   suffix?: string;
+  min?: number;
 }) {
   return (
     <label className="grid gap-1.5 text-sm font-medium text-zinc-700">
@@ -45,7 +47,7 @@ function Field({
         <input
           className="h-10 min-w-0 flex-1 rounded-md px-3 text-sm text-zinc-950 outline-none"
           defaultValue={defaultValue}
-          min={0}
+          min={min ?? 0}
           name={name}
           required
           step="any"
@@ -106,6 +108,10 @@ export default async function FinancialPage({
 
   const latestGasToPower = opportunity.gasToPowerResults[0] ?? null;
   const latestFinancial = opportunity.financialScreenResults[0] ?? null;
+  const savedAnnualFuelMmbtu =
+    latestFinancial && latestFinancial.gasPriceUsdMmbtu > 0
+      ? latestFinancial.annualFuelCost / latestFinancial.gasPriceUsdMmbtu
+      : null;
   const assumptions = {
     projectSizeMw:
       latestFinancial?.projectSizeMw ?? latestGasToPower?.recommendedMw ?? 1,
@@ -113,10 +119,7 @@ export default async function FinancialPage({
     powerPriceUsdMwh: latestFinancial?.powerPriceUsdMwh ?? 70,
     gasPriceUsdMmbtu: latestFinancial?.gasPriceUsdMmbtu ?? 2.5,
     annualFuelMmbtu:
-      latestGasToPower?.fuelEnergyMmbtuYear ??
-      (latestFinancial
-        ? latestFinancial.annualFuelCost / latestFinancial.gasPriceUsdMmbtu
-        : 0),
+      savedAnnualFuelMmbtu ?? latestGasToPower?.fuelEnergyMmbtuYear ?? 0,
     capexPerKwLow: latestFinancial?.capexPerKwLow ?? 1000,
     capexPerKwBase: latestFinancial?.capexPerKwBase ?? 1400,
     capexPerKwHigh: latestFinancial?.capexPerKwHigh ?? 1800,
@@ -188,8 +191,8 @@ export default async function FinancialPage({
           <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
             <h2 className="text-lg font-semibold">Inputs and Assumptions</h2>
             <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Field defaultValue={assumptions.projectSizeMw} label="Project Size" name="projectSizeMw" suffix="MW" />
-              <Field defaultValue={assumptions.annualMwh} label="Annual Energy" name="annualMwh" suffix="MWh" />
+              <Field defaultValue={assumptions.projectSizeMw} label="Project Size" min={0.000001} name="projectSizeMw" suffix="MW" />
+              <Field defaultValue={assumptions.annualMwh} label="Annual Energy" min={0.000001} name="annualMwh" suffix="MWh" />
               <Field defaultValue={assumptions.powerPriceUsdMwh} label="Power Price" name="powerPriceUsdMwh" suffix="$/MWh" />
               <Field defaultValue={assumptions.gasPriceUsdMmbtu} label="Gas Price" name="gasPriceUsdMmbtu" suffix="$/MMBtu" />
               <Field defaultValue={assumptions.annualFuelMmbtu} label="Annual Fuel" name="annualFuelMmbtu" suffix="MMBtu" />

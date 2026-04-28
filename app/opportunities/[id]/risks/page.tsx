@@ -260,7 +260,7 @@ export default async function RisksPage({
                         {risk.riskDescription}
                       </p>
                       <p className="mt-2 text-sm text-zinc-600">
-                        Probability: {risk.probability} · Impact: {risk.impact}
+                        Probability: {risk.probability} - Impact: {risk.impact}
                       </p>
                     </div>
                     <form action={deleteAction}>

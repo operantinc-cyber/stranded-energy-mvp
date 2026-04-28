@@ -26,6 +26,15 @@ function formatDate(date: Date) {
   }).format(date);
 }
 
+function latestDate(dates: Array<Date | null | undefined>) {
+  const validDates = dates.filter((date): date is Date => Boolean(date));
+
+  return validDates.reduce(
+    (latest, date) => (date.getTime() > latest.getTime() ? date : latest),
+    validDates[0] ?? new Date(0),
+  );
+}
+
 export default async function Home() {
   const opportunities = await prisma.opportunity.findMany({
     orderBy: {
@@ -152,7 +161,14 @@ export default async function Home() {
                             : "Not calculated"}
                         </td>
                         <td className="px-4 py-3 text-zinc-700">
-                          {formatDate(opportunity.updatedAt)}
+                          {formatDate(
+                            latestDate([
+                              opportunity.updatedAt,
+                              latestScore?.createdAt,
+                              latestGasToPower?.createdAt,
+                              latestFinancial?.createdAt,
+                            ]),
+                          )}
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">

@@ -403,8 +403,11 @@ export async function createRisk(id: string, formData: FormData) {
 }
 
 export async function updateRisk(id: string, riskId: string, formData: FormData) {
-  await prisma.riskItem.update({
-    where: { id: riskId },
+  await prisma.riskItem.updateMany({
+    where: {
+      id: riskId,
+      opportunityId: id,
+    },
     data: riskData(formData),
   });
 
@@ -413,8 +416,11 @@ export async function updateRisk(id: string, riskId: string, formData: FormData)
 }
 
 export async function deleteRisk(id: string, riskId: string) {
-  await prisma.riskItem.delete({
-    where: { id: riskId },
+  await prisma.riskItem.deleteMany({
+    where: {
+      id: riskId,
+      opportunityId: id,
+    },
   });
 
   revalidatePath(`/opportunities/${id}/risks`);
@@ -526,16 +532,20 @@ async function memoBundle(id: string) {
 export async function generateAndSaveProjectMemo(id: string) {
   const opportunity = await memoBundle(id);
   const memo = generateProjectMemo(opportunity);
+  const recommendedConcept =
+    opportunity.projectMemo?.recommendedConcept ?? memo.recommendedConcept;
 
   await prisma.projectMemo.upsert({
     where: { opportunityId: id },
     create: {
       opportunityId: id,
       ...memo,
+      recommendedConcept,
       memoStatus: "Draft",
     },
     update: {
       ...memo,
+      recommendedConcept,
       memoStatus: opportunity.projectMemo?.memoStatus ?? "Draft",
     },
   });

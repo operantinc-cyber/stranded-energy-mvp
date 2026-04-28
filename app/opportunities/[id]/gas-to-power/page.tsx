@@ -19,11 +19,15 @@ function Field({
   name,
   defaultValue,
   suffix,
+  min,
+  max,
 }: {
   label: string;
   name: string;
   defaultValue: number;
   suffix?: string;
+  min?: number;
+  max?: number;
 }) {
   return (
     <label className="grid gap-1.5 text-sm font-medium text-zinc-700">
@@ -32,7 +36,8 @@ function Field({
         <input
           className="h-10 min-w-0 flex-1 rounded-md px-3 text-sm text-zinc-950 outline-none"
           defaultValue={defaultValue}
-          min={0}
+          max={max}
+          min={min ?? 0}
           name={name}
           required
           step="any"
@@ -154,30 +159,35 @@ export default async function GasToPowerPage({
               <Field
                 defaultValue={assumptions.availableGasMMscfd}
                 label="Available Gas"
+                min={0.000001}
                 name="availableGasMMscfd"
                 suffix="MMscfd"
               />
               <Field
                 defaultValue={assumptions.heatingValueBtuScf}
                 label="Heating Value"
+                min={0.000001}
                 name="heatingValueBtuScf"
                 suffix="Btu/scf"
               />
               <Field
                 defaultValue={assumptions.generatorHeatRateBtuKwh}
                 label="Generator Heat Rate"
+                min={0.000001}
                 name="generatorHeatRateBtuKwh"
                 suffix="Btu/kWh"
               />
               <Field
                 defaultValue={assumptions.availabilityPercent}
                 label="Availability"
+                max={100}
                 name="availabilityPercent"
                 suffix="%"
               />
               <Field
                 defaultValue={assumptions.parasiticLoadPercent}
                 label="Parasitic Load"
+                max={50}
                 name="parasiticLoadPercent"
                 suffix="%"
               />

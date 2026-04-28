@@ -58,6 +58,9 @@ export default async function MonetizationPage({
   const options = compareMonetizationOptions(opportunity);
   const preferredOption = opportunity.projectMemo?.recommendedConcept ?? null;
   const preferredAction = setPreferredMonetization.bind(null, opportunity.id);
+  const isPreferred = (optionName: string) =>
+    preferredOption === optionName ||
+    preferredOption?.startsWith(`Recommended concept: ${optionName}.`);
 
   return (
     <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-950 sm:px-6 lg:px-8">
@@ -104,7 +107,7 @@ export default async function MonetizationPage({
                     <span className="rounded-full bg-zinc-100 px-2 py-1 text-xs font-semibold text-zinc-700">
                       Rank {index + 1}
                     </span>
-                    {preferredOption === option.name ? (
+                    {isPreferred(option.name) ? (
                       <span className="rounded-full bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-700 ring-1 ring-teal-100">
                         Preferred
                       </span>
