@@ -120,6 +120,28 @@ Open Prisma Studio if you want to inspect or edit database records directly:
 pnpm prisma studio
 ```
 
+## Resetting The Demo Database
+
+Before a founder demo, you can reset the local SQLite database and reload the three seed opportunities:
+
+```bash
+pnpm demo:reset
+```
+
+This deletes local demo records and reloads:
+
+- West Texas Stranded Gas Power Screen
+- Niger Delta Marginal Field Modular Infrastructure Screen
+- Louisiana Flare Gas Modular Power Opportunity
+
+To inspect the database after reset:
+
+```bash
+pnpm db:studio
+```
+
+See `docs/demo-reset.md` for the full reset workflow and warning.
+
 ## Run The App
 
 Start the local development server:

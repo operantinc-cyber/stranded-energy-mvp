@@ -9,7 +9,10 @@ const adapter = new PrismaBetterSqlite3({
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  console.log("Starting seed...");
+
   await prisma.opportunity.deleteMany();
+  console.log("Deleted existing demo data");
 
   await prisma.opportunity.create({
     data: {
@@ -76,6 +79,7 @@ async function main() {
       }
     }
   });
+  console.log("Created West Texas Stranded Gas Power Screen");
 
   await prisma.opportunity.create({
     data: {
@@ -139,6 +143,7 @@ async function main() {
       }
     }
   });
+  console.log("Created Niger Delta Marginal Field Modular Infrastructure Screen");
 
   await prisma.opportunity.create({
     data: {
@@ -202,6 +207,11 @@ async function main() {
       }
     }
   });
+
+  console.log("Created Louisiana Flare Gas Modular Power Opportunity");
+
+  const opportunityCount = await prisma.opportunity.count();
+  console.log(`Seed complete. Opportunity count: ${opportunityCount}`);
 }
 
 main()
