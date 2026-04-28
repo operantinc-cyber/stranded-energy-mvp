@@ -2,6 +2,8 @@
 
 ## AI-assisted screening for stranded gas, flare gas, marginal fields, and modular power opportunities.
 
+This is the client-facing offer for an AI-native energy infrastructure developer focused on stranded and underused energy assets. The current service is the concierge development screen, which is the first proof point for a larger autonomous project origination engine.
+
 ## A. What This Service Does
 
 The Stranded Energy Development Screen helps operators, investors, and industrial energy users evaluate stranded or underused energy assets and turn the strongest opportunities into practical development concepts.

@@ -19,7 +19,7 @@ pnpm dev
 Open:
 
 ```text
-http://localhost:3000
+http://localhost:3000/pipeline
 ```
 
 If the seed opportunity is missing, run:
@@ -28,15 +28,15 @@ If the seed opportunity is missing, run:
 pnpm prisma db seed
 ```
 
-## 1. Dashboard
+## 1. Internal Development Desk
 
 Approximate time: 1 minute
 
 Talking points:
 
-- "This is the opportunity dashboard. It gives us one place to track stranded energy opportunities."
+- "This is the internal development desk. It gives us one place to track stranded energy opportunities."
 - "Each row shows the opportunity name, asset type, location, status, score, classification, recommended MW, capex, EBITDA, and last updated date."
-- "The dashboard is intentionally simple. The point of the MVP is not portfolio analytics yet. The point is to move one opportunity through a repeatable screening workflow."
+- "The desk is intentionally simple. The point of the MVP is not portfolio analytics yet. The point is to move one opportunity through a repeatable development workflow."
 
 Demo actions:
 
@@ -208,6 +208,5 @@ Talking points:
 
 Demo action:
 
-- Return to the dashboard.
+- Return to the pipeline.
 - Show that latest score, classification, recommended MW, capex, EBITDA, and last updated values are populated.
-

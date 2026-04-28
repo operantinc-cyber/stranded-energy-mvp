@@ -2,6 +2,8 @@
 
 Audience: EPC firms, modular facility providers, gas engine/turbine vendors, gas processing vendors, water treatment vendors, battery vendors.
 
+The company is an AI-native energy infrastructure developer. The current proof point is a concierge development screen used to package practical projects and identify where vendor input is needed.
+
 ## Partner Opportunity
 
 The Stranded Energy Development Screen creates a structured way to identify and package early modular infrastructure opportunities before they are ready for detailed engineering or procurement.

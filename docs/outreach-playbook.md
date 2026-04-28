@@ -2,7 +2,7 @@
 
 ## Outreach Objective
 
-The outreach objective is to find qualified stranded gas, flare gas, marginal field, modular power, and related infrastructure opportunities that can be screened through the Stranded Energy Development Screen MVP.
+The outreach objective is to find qualified stranded gas, flare gas, marginal field, modular power, and related infrastructure opportunities that can be screened through the Stranded Energy Development Screen MVP for an AI-native energy infrastructure developer.
 
 The first outreach motion should validate three things:
 

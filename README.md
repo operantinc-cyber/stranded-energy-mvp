@@ -1,57 +1,72 @@
 # Stranded Energy MVP
 
-Stranded Energy MVP is a local demo app for screening stranded gas and marginal field development opportunities. It helps a founder or commercial team move from a raw opportunity to a structured screening view, including score, gas-to-power sizing, preliminary economics, risks, monetization options, and a draft project memo.
+This repository contains two linked pieces:
 
-This is a local MVP. It is designed for demos, workflow testing, and early diligence conversations.
+- A simple public website for an AI-native energy infrastructure developer.
+- An internal concierge development desk for screening stranded gas, flare gas, marginal field, and modular power opportunities.
 
-## What The App Does
+The public site communicates the company vision. The internal desk is the current proof point.
 
-The app helps you:
+## What This Project Is
 
-- Create and edit energy opportunities.
-- Use a client intake form and internal checklist before screening.
-- Track target counterparties with a lightweight CRM template.
-- Package the concierge MVP service with founder-ready pricing and proposal materials.
-- Explain the investor and partner thesis with reusable one-pagers.
-- View manually entered asset coordinates on a lightweight map.
-- Capture resource, infrastructure, commercial, and regulatory inputs.
-- Score an opportunity across 10 screening categories.
-- Estimate gas-to-power capacity from available gas.
-- Run a preliminary financial screen.
-- Build a risk register.
-- Compare monetization options.
-- Select a preferred monetization concept.
-- Generate, edit, and export a Markdown or print-to-PDF project memo.
-- See latest score, classification, recommended MW, estimated capex, EBITDA, and last updated values on the dashboard.
+An AI-native energy infrastructure developer focused on stranded and underused energy assets.
+
+The company uses autonomous agents and structured development workflows to originate, screen, structure, and advance overlooked energy opportunities.
+
+## What The MVP Is
+
+The current MVP is a concierge development screen. It helps turn a raw opportunity into a practical development concept with intake review, technical sizing, preliminary economics, risk review, monetization comparison, and a project memo.
+
+It is a first proof point, not the final product.
+
+## What The Final Company Vision Is
+
+The long-term business is a development company with workflow leverage from autonomous agents. The value should come from project origination, development rights, development fees, success fees, project equity, carried interest, and operating intelligence.
+
+## Public Website Vs Internal MVP
+
+- The public website is the homepage at `/`.
+- The public website should be simple and should not link to the internal desk.
+- The internal development desk lives in direct routes such as `/pipeline`, `/intake`, `/crm`, `/commercial`, `/partners`, and `/opportunities/[id]/*`.
+- The internal desk is a local working surface for founder-led development, not the company itself.
+
+## Messaging Separation
+
+- Public language should say `AI-native energy infrastructure developer`.
+- MVP language should say `concierge development screen` or `internal development desk`.
+- Avoid describing the company as a generic SaaS platform, dashboard product, or software tool.
+- Use `development workflow`, `project origination`, `development partner`, and `operating intelligence` when describing the larger business.
+- `docs/messaging-guide.md` is the source of truth for wording.
+
+## Autonomy-Ready Architecture
+
+- Autonomous agents are internal leverage.
+- Structured workflows create repeatability.
+- The system is designed to learn from screened opportunities, not just store records.
+- Over time, the workflow should support origination, prioritization, concept selection, packaging, and project advancement.
+
+## What This Is Not
+
+- Not a generic SaaS product.
+- Not just a dashboard.
+- Not final engineering.
+- Not legal advice.
+- Not investment advice.
+- Not reserve certification.
+- Not interconnection study.
+- Not environmental opinion.
+- Not bankable feasibility study.
 
 ## Who It Is For
 
-This MVP is for:
+The public company story and internal workflow are relevant for:
 
-- Founders evaluating stranded energy opportunities.
-- Energy developers screening early-stage projects.
-- Commercial teams comparing monetization routes.
-- Investors reviewing preliminary development logic.
-- Advisors preparing early project memos.
-
-It is not intended for final engineering, legal, environmental, interconnection, reserve, or investment decisions.
-
-## Current MVP Modules
-
-- **Dashboard:** overview of all opportunities and latest saved outputs.
-- **Client Intake:** client-facing questionnaire and internal review checklist before creating a record.
-- **Counterparty CRM:** target list template, outreach playbook, and email templates for market testing.
-- **Commercial Package:** service overview, pricing ranges, proposal template, and report disclaimer.
-- **Investor/Partner Materials:** thesis deck outline, investor one-pager, partner one-pagers, and advisor note.
-- **Map/GIS View:** lightweight OpenStreetMap asset location view using manually entered coordinates.
-- **Opportunity CRUD:** create, edit, and delete opportunities.
-- **Scoring:** 10-category deterministic opportunity score and classification.
-- **Gas-to-Power:** screening calculator for theoretical, practical, and recommended MW.
-- **Financial Screen:** preliminary capex, revenue, opex, EBITDA, payback, and break-even view.
-- **Risk Register:** default and manual risks with probability, impact, severity, mitigation, and owner.
-- **Monetization Options:** ranked rule-based options such as gas-to-power, pipeline tie-in, CNG, mini-LNG, and defer.
-- **Memo Generator:** draft project memo using saved opportunity data and latest analysis snapshots.
-- **Memo Export:** local Markdown export and browser print-to-PDF export.
+- Operators and gas producers.
+- Marginal field owners.
+- Infrastructure investors and family offices.
+- EPC and modular infrastructure partners.
+- Industrial power users and data center developers.
+- Advisors and development agencies working on stranded assets.
 
 ## Project Stack
 
@@ -166,6 +181,17 @@ Open the app:
 http://localhost:3000
 ```
 
+## Website and internal app separation
+
+- `/` is a simple public landing page for the Stranded Energy Development Screen service.
+- The public landing page intentionally does not expose or link to internal MVP pages.
+- Internal MVP tools are not part of the public website.
+- The internal development desk is available through direct routes such as `http://localhost:3000/pipeline` and the opportunity detail pages.
+- The internal MVP workflow remains under `/opportunities`, `/pipeline`, `/intake`, `/crm`, `/commercial`, and `/partners`.
+- The public landing page does not use the database.
+- The internal MVP uses SQLite locally.
+- Authentication is not included in V1 and should be added before public deployment of internal tools.
+
 Useful checks:
 
 ```bash
@@ -190,7 +216,7 @@ pnpm test:watch
 
 Use the seed opportunity `West Texas Stranded Gas Power Screen` for a full demo.
 
-1. Open the dashboard at `http://localhost:3000`.
+1. Open the internal development desk at `http://localhost:3000/pipeline`.
 2. Click `Edit` on `West Texas Stranded Gas Power Screen`.
 3. Review the opportunity profile and the resource, infrastructure, commercial, and regulatory data.
 4. Click `Score Opportunity`, review suggested scores, optionally override values, and save.
@@ -199,7 +225,7 @@ Use the seed opportunity `West Texas Stranded Gas Power Screen` for a full demo.
 7. Click `Risks`, generate default risks, then edit owners, mitigations, next actions, and statuses.
 8. Click `Monetization`, review ranked options, and mark one option as preferred.
 9. Click `Memo`, generate the project memo, edit any sections, save, and export Markdown or open the print view to save as PDF.
-10. Return to the dashboard and show the latest saved score, classification, recommended MW, capex, EBITDA, and last updated date.
+10. Return to the pipeline or opportunity detail page and show the latest saved score, classification, recommended MW, capex, EBITDA, and last updated date.
 
 ## Exporting Project Memos
 
@@ -250,7 +276,7 @@ Open `http://localhost:3000/partners` to see a simple in-app summary of the mate
 
 ## Map/GIS View
 
-Add latitude and longitude to an opportunity using decimal degrees, then open the opportunity Map page from the detail page or dashboard action area.
+Add latitude and longitude to an opportunity using decimal degrees, then open the opportunity Map page from the detail page or pipeline action area.
 
 V1 uses an embedded OpenStreetMap view and external map links for quick location review. It does not require API keys and does not perform full GIS, land, pipeline, substation, road, environmental, or interconnection analysis.
 

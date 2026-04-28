@@ -2,6 +2,8 @@
 
 Audience: Independent oil and gas operators, gas producers, marginal field owners.
 
+The company is an AI-native energy infrastructure developer. The current proof point is a concierge development screen that turns raw opportunity data into a practical development concept.
+
 ## The Operator Problem
 
 Operators often have gas that is stranded, flared, shut in, discounted, or difficult to monetize through existing infrastructure. Marginal assets may also need modular redevelopment concepts before they can attract partners, capital, or offtake.

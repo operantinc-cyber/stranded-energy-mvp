@@ -11,7 +11,7 @@ Bullets:
 
 Speaker notes:
 
-This deck introduces a practical development workflow for finding, screening, and packaging stranded gas and modular infrastructure opportunities. The goal is to move credible projects faster from raw opportunity to a decision-ready development concept.
+This deck introduces the business thesis for an AI-native energy infrastructure developer. The goal is to move credible projects faster from raw opportunity to a decision-ready development concept through autonomous project origination and structured development workflows.
 
 ## Slide 2: The Problem
 
@@ -52,7 +52,7 @@ Bullets:
 
 Speaker notes:
 
-The opportunity is to focus on projects that are economically meaningful but not naturally served by large development platforms. A repeatable screen can identify which ones deserve deeper work and which ones should be rejected quickly.
+The opportunity is to focus on projects that are economically meaningful but not naturally served by large development teams. A repeatable screen can identify which ones deserve deeper work and which ones should be rejected quickly.
 
 ## Slide 5: Our Wedge
 
@@ -95,7 +95,7 @@ Bullets:
 - Financial screen.
 - Risk register.
 - Memo export.
-- [Placeholder: dashboard screenshot]
+- [Placeholder: internal development desk screenshot]
 - [Placeholder: financial screen screenshot]
 - [Placeholder: memo export screenshot]
 
@@ -117,7 +117,7 @@ Bullets:
 
 Speaker notes:
 
-The first revenue comes from paid diagnostics and development screens. Over time, the platform can support deeper participation in projects where the company helps originate, structure, finance, or optimize the opportunity.
+The first revenue comes from paid diagnostics and development screens. Over time, the development engine can support deeper participation in projects where the company helps originate, structure, finance, or optimize the opportunity.
 
 ## Slide 9: Target Customers and Partners
 
@@ -158,7 +158,7 @@ Bullets:
 - V1: concierge MVP.
 - V2: PDF export, scenarios, CRM, Kanban, document upload, AI memo assist.
 - V3: opportunity discovery engine, GIS, data integrations, data room export.
-- Long-term: autonomous energy development platform.
+- Long-term: autonomous energy development engine.
 
 Speaker notes:
 

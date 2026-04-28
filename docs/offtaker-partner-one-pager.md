@@ -2,6 +2,8 @@
 
 Audience: Data center developers, industrial power users, industrial parks, mining, manufacturing, cold chain, logistics, and other large loads.
 
+The company is an AI-native energy infrastructure developer. The current proof point is a concierge development screen used to evaluate dedicated power and modular supply opportunities near load.
+
 ## The Power Problem
 
 Large loads increasingly need reliable, cost-aware, and deployable power options. Grid interconnection delays, utility constraints, and power price uncertainty can slow site development or expansion.

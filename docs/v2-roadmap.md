@@ -62,3 +62,9 @@ This roadmap focuses on practical improvements that make the MVP easier to demo,
 - Add audit trail.
 - Add organization/workspace support.
 
+## Messaging And Company Narrative
+
+- Keep the company positioned as an AI-native energy infrastructure developer.
+- Keep the current MVP positioned as a concierge development screen.
+- Keep autonomy language tied to project origination, screening, and development coordination.
+- Avoid describing the business as a generic SaaS product or dashboard company.

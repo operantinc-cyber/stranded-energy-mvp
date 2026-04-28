@@ -1,6 +1,6 @@
 # Stranded Energy Development Screen: Client Intake Form
 
-This intake form is used to collect the minimum information needed for a preliminary stranded energy development screen. Please provide best available data and mark unknown items clearly.
+This intake form is used to collect the minimum information needed for a preliminary stranded energy development screen. It supports the internal development desk of an AI-native energy infrastructure developer. Please provide best available data and mark unknown items clearly.
 
 ## A. Contact Information
 

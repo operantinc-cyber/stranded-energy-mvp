@@ -1,8 +1,8 @@
-# Investor One-Pager: AI-Native Energy Development Platform
+# Investor One-Pager: AI-Native Energy Infrastructure Developer
 
 ## One-Line Thesis
 
-AI-native development workflows can make small, messy, stranded energy opportunities faster to screen, package, and move toward financeable development decisions.
+AI-native development workflows can make small, messy, stranded energy opportunities faster to screen, package, and move toward financeable development decisions. The business is a development company, not a generic software product.
 
 ## Problem
 
@@ -10,7 +10,7 @@ Stranded gas, flare gas, marginal fields, and modular power opportunities often 
 
 ## Solution
 
-The Stranded Energy Development Screen is a structured workflow that turns raw opportunity data into a practical development screen. It covers intake, scoring, gas-to-power or modular infrastructure sizing, preliminary economics, risk register, monetization pathway comparison, and an exportable project memo.
+The Stranded Energy Development Screen is the current concierge proof point. It is a structured workflow that turns raw opportunity data into a practical development screen. It covers intake, scoring, gas-to-power or modular infrastructure sizing, preliminary economics, risk register, monetization pathway comparison, and an exportable project memo.
 
 ## First Market Wedge
 
@@ -18,7 +18,7 @@ The initial wedge is stranded gas-to-power, flare gas monetization, marginal fie
 
 ## MVP Status
 
-The current MVP supports a concierge service workflow:
+The current MVP supports a concierge service workflow. It also creates internal leverage through agents and structured analysis:
 
 - Opportunity database and pipeline.
 - Client intake checklist.
@@ -29,6 +29,7 @@ The current MVP supports a concierge service workflow:
 - Monetization ranking.
 - Memo generation and export.
 - CRM and outreach materials.
+- Agent-assisted screening and packaging inside the internal development desk.
 
 ## Business Model
 
@@ -42,7 +43,7 @@ The current MVP supports a concierge service workflow:
 
 ## Why This Can Become Valuable
 
-The business can become valuable if the workflow repeatedly identifies overlooked energy development opportunities and helps move them toward execution. Over time, the company can build a proprietary opportunity database, standardized development templates, advisor/vendor network, and project rights or economics.
+The business can become valuable if the workflow repeatedly identifies overlooked energy development opportunities and helps move them toward execution. Over time, the company can build a proprietary opportunity database, standardized development templates, advisor/vendor network, project rights, and project economics. Agents are internal leverage, not the business model itself.
 
 ## Near-Term Milestones
 
@@ -60,3 +61,4 @@ The business can become valuable if the workflow repeatedly identifies overlooke
 - EPC and vendor relationships.
 - Advisors with power, gas processing, project finance, legal, permitting, or data center power experience.
 - Capital partners interested in early infrastructure development pipelines.
+- Development partners who understand project rights, carried interest, and operating intelligence.

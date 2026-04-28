@@ -8,7 +8,7 @@ export default function NewOpportunityPage() {
       <div className="mx-auto grid max-w-6xl gap-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Link className="text-sm font-semibold text-emerald-700 hover:text-emerald-800" href="/">
+            <Link className="text-sm font-semibold text-emerald-700 hover:text-emerald-800" href="/dashboard">
               Back to dashboard
             </Link>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight">New Opportunity</h1>

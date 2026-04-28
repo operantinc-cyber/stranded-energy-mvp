@@ -2,7 +2,7 @@
 
 Hi [Name],
 
-I am building the Stranded Energy Development Screen, an AI-assisted workflow for screening stranded gas, flare gas, marginal field, and modular power opportunities. The goal is to help operators, investors, and industrial energy users turn early opportunity data into a practical development concept, economics view, risk register, monetization comparison, and next-step memo.
+I am building an AI-native energy infrastructure developer focused on stranded and underused energy assets. The current proof point is the Stranded Energy Development Screen, an internal concierge workflow for screening stranded gas, flare gas, marginal field, and modular power opportunities. The goal is to help operators, investors, and industrial energy users turn early opportunity data into a practical development concept, economics view, risk register, monetization comparison, and next-step memo.
 
 I am assembling a small advisor bench because these opportunities need real technical and commercial judgment. The workflow can structure and accelerate the first screen, but it should be grounded by people who understand power systems, gas processing, project finance, energy law, permitting, EPC execution, and large-load power procurement.
 

@@ -93,7 +93,7 @@ export default function CommercialPage() {
           <nav className="flex flex-wrap gap-2">
             <Link
               className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
-              href="/"
+              href="/dashboard"
             >
               Dashboard
             </Link>

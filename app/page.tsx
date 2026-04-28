@@ -1,308 +1,186 @@
-import Link from "next/link";
-import { deleteOpportunity } from "@/app/actions";
-import { prisma } from "@/lib/db";
-import {
-  formatCurrency,
-  formatDate,
-  formatMw,
-  formatScore,
-} from "@/lib/format";
+const visionPoints = [
+  "AI-native energy infrastructure developer.",
+  "Focused on stranded and underused energy assets.",
+  "Built around autonomous agents and structured development workflows.",
+];
 
-export const dynamic = "force-dynamic";
+const wedgePoints = [
+  "Stranded gas and flare gas.",
+  "Marginal field redevelopment.",
+  "Modular power infrastructure.",
+  "Practical opportunities that can be screened and advanced quickly.",
+];
 
-function locationLabel(opportunity: {
-  locationCity: string | null;
-  locationState: string | null;
-  locationCountry: string | null;
-}) {
-  const parts = [
-    opportunity.locationCity,
-    opportunity.locationState,
-    opportunity.locationCountry,
-  ].filter(Boolean);
+const proofPointItems = [
+  "Concierge development screen.",
+  "Structured intake, screening, risk, and memo workflow.",
+  "First proof point for the larger company vision.",
+];
 
-  return parts.length > 0 ? parts.join(", ") : "Not provided";
-}
-
-function latestDate(dates: Array<Date | null | undefined>) {
-  const validDates = dates.filter((date): date is Date => Boolean(date));
-
-  return validDates.reduce(
-    (latest, date) => (date.getTime() > latest.getTime() ? date : latest),
-    validDates[0] ?? new Date(0),
-  );
-}
-
-function badgeClass(value: string | null | undefined) {
-  if (value === "Priority" || value === "Active") {
-    return "bg-emerald-50 text-emerald-800 ring-emerald-100";
-  }
-
-  if (value === "Develop" || value === "New") {
-    return "bg-blue-50 text-blue-800 ring-blue-100";
-  }
-
-  if (value === "Watch") {
-    return "bg-amber-50 text-amber-800 ring-amber-100";
-  }
-
-  if (value === "Reject" || value === "Closed") {
-    return "bg-red-50 text-red-700 ring-red-100";
-  }
-
-  return "bg-zinc-100 text-zinc-700 ring-zinc-200";
-}
-
-function Badge({ value }: { value: string | null | undefined }) {
+export default function PublicHome() {
   return (
-    <span
-      className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ring-1 ${badgeClass(value)}`}
-    >
-      {value ?? "Not calculated"}
-    </span>
-  );
-}
-
-export default async function Home() {
-  const opportunities = await prisma.opportunity.findMany({
-    orderBy: {
-      updatedAt: "desc",
-    },
-    include: {
-      scoringResults: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-      },
-      gasToPowerResults: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-      },
-      financialScreenResults: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-      },
-    },
-  });
-
-  return (
-    <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-950 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-6">
-        <div className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-6 shadow-sm sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
-              Stranded Energy MVP
-            </p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-              Opportunity Dashboard
-            </h1>
-            <p className="mt-2 max-w-2xl text-sm text-zinc-600">
-              Track early-stage energy opportunities and maintain the input data needed for later scoring.
-            </p>
-          </div>
-          <nav className="flex flex-wrap gap-2">
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800"
-              href="/"
-            >
-              Dashboard
-            </Link>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
-              href="/pipeline"
-            >
-              Pipeline
-            </Link>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
-              href="/intake"
-            >
-              Intake
-            </Link>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
-              href="/crm"
-            >
-              CRM
-            </Link>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
-              href="/commercial"
-            >
-              Commercial
-            </Link>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
-              href="/partners"
-            >
-              Partners
-            </Link>
-            <Link
-              className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
-              href="/opportunities/new"
-            >
-              New Opportunity
-            </Link>
+    <main className="min-h-screen bg-stone-50 text-stone-950">
+      <header className="border-b border-stone-200 bg-stone-50">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-5 lg:px-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-800">
+            AI-native energy infrastructure developer
+          </p>
+          <nav className="flex flex-wrap gap-5 text-sm font-medium text-stone-700">
+            <a className="hover:text-emerald-800" href="#vision">
+              Vision
+            </a>
+            <a className="hover:text-emerald-800" href="#starting-point">
+              Starting Point
+            </a>
+            <a className="hover:text-emerald-800" href="#proof-point">
+              Proof Point
+            </a>
+            <a className="hover:text-emerald-800" href="#contact">
+              Contact
+            </a>
           </nav>
         </div>
+      </header>
 
-        <section className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
-          <div className="border-b border-zinc-200 px-5 py-4">
-            <h2 className="text-lg font-semibold">Opportunities</h2>
+      <section className="mx-auto max-w-6xl px-5 py-20 sm:py-24 lg:px-8">
+        <div className="max-w-4xl">
+          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-800">
+            Public website
+          </p>
+          <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+            Building an AI-native energy developer for stranded assets.
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-stone-700">
+            We identify, screen, and structure stranded gas, flare gas,
+            marginal field, and modular power opportunities, starting with a
+            concierge development screen and evolving toward autonomous project
+            origination.
+          </p>
+          <p className="mt-6 max-w-3xl text-base leading-7 text-stone-600">
+            The current development screen is the first proof point, not the
+            final product.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-y border-stone-200 bg-white" id="vision">
+        <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
+          <h2 className="text-3xl font-semibold tracking-tight">
+            Company vision
+          </h2>
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {visionPoints.map((point) => (
+              <article
+                className="rounded-2xl border border-stone-200 bg-stone-50 p-5"
+                key={point}
+              >
+                <p className="text-sm leading-6 text-stone-700">{point}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 py-16 lg:px-8" id="starting-point">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+          <div>
+            <h2 className="text-3xl font-semibold tracking-tight">
+              Starting wedge
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-stone-700">
+              The first wedge is stranded gas, flare gas, marginal field
+              redevelopment, and modular power infrastructure. These are the
+              opportunities that need structured development work before they
+              can be advanced with confidence.
+            </p>
+            <ul className="mt-8 grid gap-3 text-stone-700 sm:grid-cols-2">
+              {wedgePoints.map((point) => (
+                <li className="border-l-2 border-emerald-800 pl-4" key={point}>
+                  {point}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {opportunities.length === 0 ? (
-            <div className="grid gap-3 px-5 py-10 text-center">
-              <p className="text-sm text-zinc-600">No opportunities have been created yet.</p>
-              <Link
-                className="mx-auto inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
-                href="/opportunities/new"
-              >
-                Create the first opportunity
-              </Link>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-zinc-200 text-left text-sm">
-                <thead className="bg-zinc-50 text-xs font-semibold uppercase tracking-wide text-zinc-600">
-                  <tr>
-                    <th className="px-4 py-3">Name</th>
-                    <th className="px-4 py-3">Asset Type</th>
-                    <th className="px-4 py-3">Location</th>
-                    <th className="px-4 py-3">Status</th>
-                    <th className="px-4 py-3">Score</th>
-                    <th className="px-4 py-3">Classification</th>
-                    <th className="px-4 py-3">Recommended MW</th>
-                    <th className="px-4 py-3">Estimated Capex</th>
-                    <th className="px-4 py-3">EBITDA</th>
-                    <th className="px-4 py-3">Last Updated</th>
-                    <th className="px-4 py-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-200">
-                  {opportunities.map((opportunity) => {
-                    const deleteAction = deleteOpportunity.bind(null, opportunity.id);
-                    const latestScore = opportunity.scoringResults[0];
-                    const latestGasToPower = opportunity.gasToPowerResults[0];
-                    const latestFinancial = opportunity.financialScreenResults[0];
+          <aside className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-800">
+              What this is
+            </p>
+            <h3 className="mt-3 text-xl font-semibold">
+              An agentic development engine
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-stone-700">
+              Autonomous agents and structured workflows help originate,
+              screen, structure, and advance overlooked energy opportunities.
+              The long-term business is a development company, not a generic
+              software product.
+            </p>
+          </aside>
+        </div>
+      </section>
 
-                    return (
-                      <tr className="align-top transition hover:bg-zinc-50" key={opportunity.id}>
-                        <td className="px-4 py-3 font-medium text-zinc-950">
-                          {opportunity.name}
-                        </td>
-                        <td className="px-4 py-3 text-zinc-700">{opportunity.assetType}</td>
-                        <td className="px-4 py-3 text-zinc-700">
-                          {locationLabel(opportunity)}
-                        </td>
-                        <td className="px-4 py-3">
-                          <Badge value={opportunity.status} />
-                        </td>
-                        <td className="px-4 py-3 text-zinc-700">
-                          {formatScore(latestScore?.totalScore)}
-                        </td>
-                        <td className="px-4 py-3">
-                          <Badge value={latestScore?.classification} />
-                        </td>
-                        <td className="px-4 py-3 text-zinc-700">
-                          {formatMw(latestGasToPower?.recommendedMw)}
-                        </td>
-                        <td className="px-4 py-3 text-zinc-700">
-                          {formatCurrency(latestFinancial?.totalCapexBase)}
-                        </td>
-                        <td
-                          className={`px-4 py-3 ${
-                            latestFinancial && latestFinancial.ebitda < 0
-                              ? "font-semibold text-red-700"
-                              : "text-zinc-700"
-                          }`}
-                        >
-                          {formatCurrency(latestFinancial?.ebitda)}
-                        </td>
-                        <td className="px-4 py-3 text-zinc-700">
-                          {formatDate(
-                            latestDate([
-                              opportunity.updatedAt,
-                              latestScore?.createdAt,
-                              latestGasToPower?.createdAt,
-                              latestFinancial?.createdAt,
-                            ]),
-                          )}
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 transition hover:bg-white"
-                              href={`/opportunities/${opportunity.id}`}
-                            >
-                              Edit
-                            </Link>
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-emerald-200 px-3 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-50"
-                              href={`/opportunities/${opportunity.id}/score`}
-                            >
-                              Score
-                            </Link>
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-sky-200 px-3 text-xs font-semibold text-sky-700 transition hover:bg-sky-50"
-                              href={`/opportunities/${opportunity.id}/map`}
-                            >
-                              Map
-                            </Link>
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-blue-200 px-3 text-xs font-semibold text-blue-700 transition hover:bg-blue-50"
-                              href={`/opportunities/${opportunity.id}/gas-to-power`}
-                            >
-                              G2P
-                            </Link>
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-violet-200 px-3 text-xs font-semibold text-violet-700 transition hover:bg-violet-50"
-                              href={`/opportunities/${opportunity.id}/financial`}
-                            >
-                              Financial
-                            </Link>
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-amber-200 px-3 text-xs font-semibold text-amber-700 transition hover:bg-amber-50"
-                              href={`/opportunities/${opportunity.id}/risks`}
-                            >
-                              Risks
-                            </Link>
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-teal-200 px-3 text-xs font-semibold text-teal-700 transition hover:bg-teal-50"
-                              href={`/opportunities/${opportunity.id}/monetization`}
-                            >
-                              Monetize
-                            </Link>
-                            <Link
-                              className="inline-flex h-8 items-center justify-center rounded-md border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 transition hover:bg-white"
-                              href={`/opportunities/${opportunity.id}/memo`}
-                            >
-                              Memo
-                            </Link>
-                            <form action={deleteAction}>
-                              <button
-                                className="inline-flex h-8 items-center justify-center rounded-md border border-red-200 px-3 text-xs font-semibold text-red-700 transition hover:bg-red-50"
-                                type="submit"
-                              >
-                                Delete
-                              </button>
-                            </form>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+      <section className="border-y border-stone-200 bg-white" id="proof-point">
+        <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <aside className="rounded-2xl border border-stone-200 bg-stone-50 p-6">
+              <p className="text-sm font-semibold uppercase tracking-wide text-emerald-800">
+                Current MVP
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight">
+                Concierge development screen
+              </h2>
+              <p className="mt-4 text-base leading-7 text-stone-700">
+                The current MVP is the first proof point. It is an internal
+                development desk used to review an opportunity, screen the
+                resource, size a concept, assess risk, compare monetization
+                pathways, and package the next development actions.
+              </p>
+            </aside>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              {proofPointItems.map((item) => (
+                <article
+                  className="rounded-2xl border border-stone-200 bg-white p-5"
+                  key={item}
+                >
+                  <p className="text-sm leading-6 text-stone-700">{item}</p>
+                </article>
+              ))}
             </div>
-          )}
-        </section>
-      </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 py-16 lg:px-8" id="contact">
+        <div className="max-w-3xl">
+          <h2 className="text-3xl font-semibold tracking-tight">Contact</h2>
+          <p className="mt-4 text-base leading-7 text-stone-700">
+            If you are an operator, investor, offtaker, EPC partner, vendor, or
+            advisor working on stranded or underused energy assets, start with a
+            short conversation.
+          </p>
+          <div className="mt-7">
+            <a
+              className="inline-flex min-h-11 items-center justify-center rounded-md bg-emerald-800 px-5 text-sm font-semibold text-white transition hover:bg-emerald-900"
+              href="mailto:operantic@gmail.com?subject=Stranded%20Energy%20Development%20Screen"
+            >
+              Email for a discovery call
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-stone-200 bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-8 lg:px-8">
+          <p className="text-sm leading-6 text-stone-600">
+            The public website describes the company vision. The internal
+            development desk is a preliminary commercial and technical
+            screening workflow, not final engineering design, legal advice,
+            investment advice, reserve certification, environmental opinion,
+            interconnection study, or bankable feasibility study.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

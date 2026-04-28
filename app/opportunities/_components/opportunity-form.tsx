@@ -248,7 +248,7 @@ export function OpportunityForm({
       <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-4 shadow-sm sm:flex-row sm:justify-end">
         <Link
           className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
-          href="/"
+          href="/dashboard"
         >
           Cancel
         </Link>

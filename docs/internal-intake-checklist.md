@@ -1,6 +1,6 @@
 # Internal Intake Checklist
 
-Use this checklist before creating or screening a new opportunity in the MVP. The goal is to decide whether the data is sufficient for a preliminary screen, what follow-up is needed, and whether the opportunity should proceed, pause, or be rejected.
+Use this checklist before creating or screening a new opportunity in the MVP. It is part of the internal development desk of an AI-native energy infrastructure developer. The goal is to decide whether the data is sufficient for a preliminary screen, what follow-up is needed, and whether the opportunity should proceed, pause, or be rejected.
 
 ## Minimum Viable Data Required To Screen
 

@@ -1,6 +1,6 @@
 # Target Counterparty CRM Template
 
-This is a lightweight business development tracker for the Stranded Energy Development Screen MVP. Use it to organize outreach to operators, investors, EPC partners, vendors, offtakers, lawyers, permitting advisors, and data center or industrial power contacts during MVP market testing.
+This is a lightweight business development tracker for the Stranded Energy Development Screen MVP. It supports the internal development desk of an AI-native energy infrastructure developer. Use it to organize outreach to operators, investors, EPC partners, vendors, offtakers, lawyers, permitting advisors, and data center or industrial power contacts during market testing.
 
 The goal is not to build a full CRM. The goal is to maintain a practical target list, track next actions, and identify qualified opportunities that should move into the client intake workflow.
 

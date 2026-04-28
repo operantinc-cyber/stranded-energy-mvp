@@ -1,6 +1,6 @@
 # Pricing Sheet: Stranded Energy Development Screen
 
-These are early commercial ranges for selling the Stranded Energy Development Screen as a concierge MVP service. Final pricing should reflect project complexity, data quality, urgency, jurisdiction, and third-party support needs.
+These are early commercial ranges for selling the Stranded Energy Development Screen as a concierge MVP service from an AI-native energy infrastructure developer. Final pricing should reflect project complexity, data quality, urgency, jurisdiction, and third-party support needs.
 
 ## Package 1: Opportunity Diagnostic
 
@@ -51,7 +51,7 @@ Deliverables:
 
 - Price range: Custom
 - Timeline: Project-specific
-- Best for: projects where the founder/company helps originate, structure, finance, or develop the project
+- Best for: projects where the founder/company helps originate, structure, finance, or develop the project as a development partner
 
 Commercial structures:
 

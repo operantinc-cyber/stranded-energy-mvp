@@ -1,6 +1,6 @@
 # Known Limitations
 
-This MVP is a preliminary local screening tool. It is intentionally simple.
+This internal development desk is a preliminary local screening tool for an AI-native energy infrastructure developer. It is intentionally simple.
 
 ## Data Quality Limitations
 
@@ -17,7 +17,7 @@ This MVP is a preliminary local screening tool. It is intentionally simple.
 
 ## No Live GIS
 
-- No map view.
+- No full GIS layer system.
 - No satellite imagery.
 - No pipeline GIS layers.
 - No road, substation, fiber, load, or data center geospatial validation.
@@ -73,4 +73,3 @@ This MVP is a preliminary local screening tool. It is intentionally simple.
 - No document parsing.
 - No live database feeds.
 - No automatic market, GIS, permit, or counterparty data ingestion.
-

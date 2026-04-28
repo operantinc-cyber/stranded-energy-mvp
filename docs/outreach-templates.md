@@ -6,7 +6,7 @@ Subject: Screening stranded gas and flare gas opportunities
 
 Hi [Name],
 
-We are building an AI-assisted development workflow for screening stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
+We are building an AI-native energy infrastructure developer focused on stranded and underused energy assets. The current proof point is a concierge development screen for stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
 
 I am looking to speak with operators or gas producers who have stranded gas, flaring, shut-in gas, or marginal field infrastructure constraints. If this is relevant, I would value a short conversation to understand where screening could be useful.
 
@@ -21,7 +21,7 @@ Subject: Development screening workflow for stranded energy assets
 
 Hi [Name],
 
-We are building an AI-assisted development workflow for screening stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
+We are building an AI-native energy infrastructure developer focused on stranded and underused energy assets. The current proof point is a concierge development screen for stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
 
 I am speaking with infrastructure investors and family offices that review energy development opportunities but need faster early-stage filtering before deeper diligence. The workflow is designed to separate credible opportunities from speculative ones.
 
@@ -36,7 +36,7 @@ Subject: Partnering on stranded energy development screens
 
 Hi [Name],
 
-We are building an AI-assisted development workflow for screening stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
+We are building an AI-native energy infrastructure developer focused on stranded and underused energy assets. The current proof point is a concierge development screen for stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
 
 I am mapping EPC firms, modular infrastructure vendors, and equipment suppliers that could help validate practical concepts for gas-to-power, gas processing, compression, and modular field infrastructure.
 
@@ -51,7 +51,7 @@ Subject: Screening modular power opportunities for industrial loads
 
 Hi [Name],
 
-We are building an AI-assisted development workflow for screening stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
+We are building an AI-native energy infrastructure developer focused on stranded and underused energy assets. The current proof point is a concierge development screen for stranded gas, flare gas, marginal field, and modular power opportunities. The output is a practical development screen covering technical concept, economics, risks, monetization options, and next actions.
 
 I am speaking with data center and industrial power users that may need behind-the-meter, modular, or alternative power solutions where gas resources are nearby. The goal is to identify projects that are technically and commercially worth deeper review.
 

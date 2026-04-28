@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stranded Energy MVP",
-  description: "Opportunity screening dashboard",
+  title: "Stranded Energy Development Screen",
+  description:
+    "AI-assisted screening for stranded gas, flare gas, marginal field, and modular power opportunities.",
 };
 
 export default function RootLayout({

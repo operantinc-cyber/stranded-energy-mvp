@@ -1,5 +1,7 @@
 # Feasibility Proposal Template: Stranded Energy Development Screen
 
+This proposal template is for the concierge development screen delivered by the internal development desk of an AI-native energy infrastructure developer.
+
 ## Client
 
 [Client legal name]

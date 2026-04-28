@@ -1,5 +1,7 @@
 # MVP Methodology
 
+This document describes the internal development desk that supports the AI-native energy infrastructure developer. The current proof point is a concierge development screen.
+
 ## Disclaimer
 
 This is a preliminary development screening tool, not final engineering design, legal advice, investment advice, reserve certification, interconnection study, environmental opinion, or bankable feasibility study.

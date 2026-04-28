@@ -48,5 +48,4 @@ Open:
 http://localhost:3000
 ```
 
-The dashboard should show the three seed opportunities.
-
+The internal pipeline should show the three seed opportunities.

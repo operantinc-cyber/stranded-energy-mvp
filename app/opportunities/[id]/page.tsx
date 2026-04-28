@@ -32,7 +32,7 @@ export default async function OpportunityDetailPage({
       <div className="mx-auto grid max-w-6xl gap-6">
         <div className="flex flex-col gap-4 rounded-lg border border-zinc-200 bg-white p-5 shadow-sm sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <Link className="text-sm font-semibold text-emerald-700 hover:text-emerald-800" href="/">
+            <Link className="text-sm font-semibold text-emerald-700 hover:text-emerald-800" href="/dashboard">
               Back to dashboard
             </Link>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight">{opportunity.name}</h1>
