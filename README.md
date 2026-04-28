@@ -11,6 +11,7 @@ The app helps you:
 - Create and edit energy opportunities.
 - Use a client intake form and internal checklist before screening.
 - Track target counterparties with a lightweight CRM template.
+- Package the concierge MVP service with founder-ready pricing and proposal materials.
 - Capture resource, infrastructure, commercial, and regulatory inputs.
 - Score an opportunity across 10 screening categories.
 - Estimate gas-to-power capacity from available gas.
@@ -38,6 +39,7 @@ It is not intended for final engineering, legal, environmental, interconnection,
 - **Dashboard:** overview of all opportunities and latest saved outputs.
 - **Client Intake:** client-facing questionnaire and internal review checklist before creating a record.
 - **Counterparty CRM:** target list template, outreach playbook, and email templates for market testing.
+- **Commercial Package:** service overview, pricing ranges, proposal template, and report disclaimer.
 - **Opportunity CRUD:** create, edit, and delete opportunities.
 - **Scoring:** 10-category deterministic opportunity score and classification.
 - **Gas-to-Power:** screening calculator for theoretical, practical, and recommended MW.
@@ -225,6 +227,14 @@ Use `templates/target-counterparty-crm.csv` as the initial CRM for operators, in
 Use `docs/outreach-playbook.md` to prioritize the first 100 contacts and decide when a lead is qualified. Use `docs/outreach-templates.md` for concise first outreach by segment.
 
 Qualified opportunities should move into the app through the client intake process. Start with `docs/client-intake-form.md`, review the responses at `http://localhost:3000/intake`, then create an opportunity when the asset or counterparty is credible enough to screen.
+
+## Commercial Service Package
+
+Use `docs/service-overview.md` to define the Stranded Energy Development Screen offer for clients.
+
+Use `docs/pricing-sheet.md` for early pricing ranges across diagnostics, full development screens, advanced pre-feasibility support, and development partnerships.
+
+Use `templates/feasibility-proposal-template.md` as a starting point for paid work proposals. Include or adapt `docs/report-disclaimer.md` in client-facing memos and reports.
 
 ## Known Limitations
 
