@@ -9,6 +9,7 @@ This is a local MVP. It is designed for demos, workflow testing, and early dilig
 The app helps you:
 
 - Create and edit energy opportunities.
+- Use a client intake form and internal checklist before screening.
 - Capture resource, infrastructure, commercial, and regulatory inputs.
 - Score an opportunity across 10 screening categories.
 - Estimate gas-to-power capacity from available gas.
@@ -34,6 +35,7 @@ It is not intended for final engineering, legal, environmental, interconnection,
 ## Current MVP Modules
 
 - **Dashboard:** overview of all opportunities and latest saved outputs.
+- **Client Intake:** client-facing questionnaire and internal review checklist before creating a record.
 - **Opportunity CRUD:** create, edit, and delete opportunities.
 - **Scoring:** 10-category deterministic opportunity score and classification.
 - **Gas-to-Power:** screening calculator for theoretical, practical, and recommended MW.
@@ -205,6 +207,14 @@ The PDF path uses the browser print feature, so no external PDF service or API i
 Open `http://localhost:3000/pipeline` to see all opportunities grouped by status. Each card shows the latest score, classification, recommended MW, EBITDA, and last updated date when those outputs exist.
 
 Use the status dropdown on each card to move an opportunity through the simple v1 pipeline. This is a lightweight visual workflow view, not a full CRM or drag-and-drop sales pipeline.
+
+## Client Intake Workflow
+
+Use `docs/client-intake-form.md` to collect minimum screening data from an operator, investor, or asset owner. A reusable copy is also available at `templates/client-intake-form.md`.
+
+Open `http://localhost:3000/intake` for the internal checklist. Use it to review data quality, identify red flags, decide what follow-up questions are needed, and confirm whether the opportunity is ready to enter the MVP.
+
+After intake review, create a new opportunity in the app. Then proceed through scoring, gas-to-power, financial screen, risks, monetization options, and memo generation.
 
 ## Known Limitations
 
