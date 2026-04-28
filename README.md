@@ -12,6 +12,7 @@ The app helps you:
 - Use a client intake form and internal checklist before screening.
 - Track target counterparties with a lightweight CRM template.
 - Package the concierge MVP service with founder-ready pricing and proposal materials.
+- Explain the investor and partner thesis with reusable one-pagers.
 - Capture resource, infrastructure, commercial, and regulatory inputs.
 - Score an opportunity across 10 screening categories.
 - Estimate gas-to-power capacity from available gas.
@@ -40,6 +41,7 @@ It is not intended for final engineering, legal, environmental, interconnection,
 - **Client Intake:** client-facing questionnaire and internal review checklist before creating a record.
 - **Counterparty CRM:** target list template, outreach playbook, and email templates for market testing.
 - **Commercial Package:** service overview, pricing ranges, proposal template, and report disclaimer.
+- **Investor/Partner Materials:** thesis deck outline, investor one-pager, partner one-pagers, and advisor note.
 - **Opportunity CRUD:** create, edit, and delete opportunities.
 - **Scoring:** 10-category deterministic opportunity score and classification.
 - **Gas-to-Power:** screening calculator for theoretical, practical, and recommended MW.
@@ -235,6 +237,14 @@ Use `docs/service-overview.md` to define the Stranded Energy Development Screen 
 Use `docs/pricing-sheet.md` for early pricing ranges across diagnostics, full development screens, advanced pre-feasibility support, and development partnerships.
 
 Use `templates/feasibility-proposal-template.md` as a starting point for paid work proposals. Include or adapt `docs/report-disclaimer.md` in client-facing memos and reports.
+
+## Investor And Partner Materials
+
+Use `docs/thesis-deck-outline.md` as the 12-slide narrative for explaining the business thesis.
+
+Investor and partner one-pagers are available in `docs/`, including materials for investors, operators, EPC/vendor partners, offtakers, and advisor recruiting.
+
+Open `http://localhost:3000/partners` to see a simple in-app summary of the materials and how each audience should be approached.
 
 ## Known Limitations
 
