@@ -22,6 +22,17 @@ import {
 } from "@/lib/risks";
 import { generateProjectMemo } from "@/lib/memo";
 
+const opportunityStatuses = [
+  "New",
+  "Data Requested",
+  "Screening",
+  "Memo Drafted",
+  "Pursue",
+  "Watch",
+  "Reject",
+  "Archived",
+] as const;
+
 function text(formData: FormData, name: string) {
   const value = formData.get(name);
   if (typeof value !== "string") {
@@ -239,6 +250,19 @@ export async function deleteOpportunity(id: string) {
 
   revalidatePath("/");
   redirect("/");
+}
+
+export async function updateOpportunityStatus(id: string, formData: FormData) {
+  const status = optionValue(formData, "status", opportunityStatuses);
+
+  await prisma.opportunity.update({
+    where: { id },
+    data: { status },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/pipeline");
+  revalidatePath(`/opportunities/${id}`);
 }
 
 function scoreValue(formData: FormData, name: string) {

@@ -200,6 +200,12 @@ The memo page supports two local export paths:
 
 The PDF path uses the browser print feature, so no external PDF service or API is required.
 
+## Pipeline View
+
+Open `http://localhost:3000/pipeline` to see all opportunities grouped by status. Each card shows the latest score, classification, recommended MW, EBITDA, and last updated date when those outputs exist.
+
+Use the status dropdown on each card to move an opportunity through the simple v1 pipeline. This is a lightweight visual workflow view, not a full CRM or drag-and-drop sales pipeline.
+
 ## Known Limitations
 
 - Screening-level calculations only.

@@ -105,12 +105,26 @@ export default async function Home() {
               Track early-stage energy opportunities and maintain the input data needed for later scoring.
             </p>
           </div>
-          <Link
-            className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
-            href="/opportunities/new"
-          >
-            New Opportunity
-          </Link>
+          <nav className="flex flex-wrap gap-2">
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800"
+              href="/"
+            >
+              Dashboard
+            </Link>
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
+              href="/pipeline"
+            >
+              Pipeline
+            </Link>
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
+              href="/opportunities/new"
+            >
+              New Opportunity
+            </Link>
+          </nav>
         </div>
 
         <section className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm">
