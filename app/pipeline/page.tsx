@@ -162,6 +162,12 @@ export default async function PipelinePage() {
               Intake
             </Link>
             <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
+              href="/crm"
+            >
+              CRM
+            </Link>
+            <Link
               className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
               href="/opportunities/new"
             >
