@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { calculateFinancialScreen } from "./financial";
+import {
+  calculateFinancialScenarios,
+  calculateFinancialScreen,
+} from "./financial";
 
 describe("financial", () => {
   it("calculates capex, revenue, opex, EBITDA, payback, and break-even price", () => {
@@ -55,5 +58,69 @@ describe("financial", () => {
     expect(negative.ebitda).toBeLessThan(0);
     expect(negative.simplePaybackYears).toBeNull();
   });
-});
 
+  it("returns low, base, and high financial scenarios", () => {
+    const scenarios = calculateFinancialScenarios({
+      projectSizeMw: 10,
+      annualMwh: 70_000,
+      powerPriceUsdMwh: 70,
+      gasPriceUsdMmbtu: 2.5,
+      annualFuelMmbtu: 500_000,
+      capexPerKwBase: 1400,
+    });
+
+    expect(scenarios.map((scenario) => scenario.name)).toEqual([
+      "Low Case",
+      "Base Case",
+      "High Case",
+    ]);
+  });
+
+  it("makes low-case economics weaker and high-case economics stronger than base", () => {
+    const [low, base, high] = calculateFinancialScenarios({
+      projectSizeMw: 10,
+      annualMwh: 70_000,
+      powerPriceUsdMwh: 70,
+      gasPriceUsdMmbtu: 2.5,
+      annualFuelMmbtu: 500_000,
+      capexPerKwBase: 1400,
+    });
+
+    expect(low.ebitda).toBeLessThan(base.ebitda);
+    expect(low.totalCapexBase).toBeGreaterThan(base.totalCapexBase);
+    expect(high.ebitda).toBeGreaterThan(base.ebitda);
+    expect(high.totalCapexBase).toBeLessThan(base.totalCapexBase);
+  });
+
+  it("sets scenario payback to null when EBITDA is non-positive", () => {
+    const [low] = calculateFinancialScenarios({
+      projectSizeMw: 1,
+      annualMwh: 100,
+      powerPriceUsdMwh: 1,
+      gasPriceUsdMmbtu: 10,
+      annualFuelMmbtu: 1000,
+      fixedOpexUsdKwYear: 0,
+      variableOpexUsdMwh: 0,
+    });
+
+    expect(low.ebitda).toBeLessThan(0);
+    expect(low.simplePaybackYears).toBeNull();
+  });
+
+  it("calculates scenario break-even power price", () => {
+    const [, base] = calculateFinancialScenarios({
+      projectSizeMw: 10,
+      annualMwh: 70_000,
+      powerPriceUsdMwh: 70,
+      gasPriceUsdMmbtu: 2.5,
+      annualFuelMmbtu: 500_000,
+      fixedOpexUsdKwYear: 25,
+      variableOpexUsdMwh: 5,
+    });
+
+    expect(base.breakEvenPowerPrice).toBeCloseTo(
+      base.totalAnnualOpex / base.annualMwh,
+      6,
+    );
+  });
+});

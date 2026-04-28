@@ -88,6 +88,16 @@ The screen estimates:
 
 This is not a bankable financial model. It does not include debt, tax, depreciation, working capital, construction timing, inflation, escalation, curtailment, outage modeling, hedges, contract terms, or full project finance metrics.
 
+## Financial Scenario Comparison
+
+The financial screen also derives Low Case, Base Case, and High Case sensitivities from the current assumptions.
+
+- Low Case reduces power price and annual production while increasing gas price and base capex.
+- Base Case uses the assumptions entered on the financial screen.
+- High Case increases power price and annual production while reducing gas price and base capex.
+
+Each case recalculates revenue, fuel cost, annual opex, EBITDA, base capex, simple payback, and break-even power price. These scenarios are screening-level sensitivities only. They are not a forecast, financing case, investment recommendation, or bankable downside/base/upside model.
+
 ## Risk Severity Methodology
 
 The risk register uses a simple probability-impact matrix.
@@ -242,4 +252,3 @@ Financial validation is required for:
 - Sensitivities.
 - IRR and NPV.
 - Financing documents.
-

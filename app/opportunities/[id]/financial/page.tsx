@@ -2,7 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { saveFinancialScreenResult } from "@/app/actions";
 import { prisma } from "@/lib/db";
-import { calculateFinancialScreen } from "@/lib/financial";
+import {
+  calculateFinancialScenarios,
+  calculateFinancialScreen,
+} from "@/lib/financial";
 import {
   formatCurrency,
   formatMmbtu,
@@ -128,6 +131,7 @@ export default async function FinancialPage({
     variableOpexUsdMwh: latestFinancial?.variableOpexUsdMwh ?? 5,
   };
   const result = calculateFinancialScreen(assumptions);
+  const scenarios = calculateFinancialScenarios(assumptions);
   const saveAction = saveFinancialScreenResult.bind(null, opportunity.id);
   const ebitdaByPowerPrice = [50, 60, 70, 80, 90, 100].map((powerPrice) => ({
     powerPrice,
@@ -155,6 +159,10 @@ export default async function FinancialPage({
     { label: "Opex", value: Math.round(result.totalAnnualOpex) },
     { label: "EBITDA", value: Math.round(result.ebitda) },
   ];
+  const scenarioEbitda = scenarios.map((scenario) => ({
+    label: scenario.name,
+    value: Math.round(scenario.ebitda),
+  }));
 
   return (
     <main className="min-h-screen bg-zinc-100 px-4 py-8 text-zinc-950 sm:px-6 lg:px-8">
@@ -243,10 +251,93 @@ export default async function FinancialPage({
             {formatMmbtu(assumptions.annualFuelMmbtu)} annual fuel.
           </section>
 
+          <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+            <div>
+              <h2 className="text-lg font-semibold">Scenario Comparison</h2>
+              <p className="mt-1 text-sm text-zinc-600">
+                Low, base, and high cases are derived from the current assumptions and are not saved separately.
+              </p>
+            </div>
+            <div className="mt-4 overflow-x-auto">
+              <table className="min-w-full divide-y divide-zinc-200 text-sm">
+                <thead className="bg-zinc-50 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  <tr>
+                    <th className="px-3 py-3">Case</th>
+                    <th className="px-3 py-3">Power Price</th>
+                    <th className="px-3 py-3">Annual MWh</th>
+                    <th className="px-3 py-3">Gas Price</th>
+                    <th className="px-3 py-3">Base Capex</th>
+                    <th className="px-3 py-3">Revenue</th>
+                    <th className="px-3 py-3">Opex</th>
+                    <th className="px-3 py-3">EBITDA</th>
+                    <th className="px-3 py-3">Payback</th>
+                    <th className="px-3 py-3">Break-even Power Price</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  {scenarios.map((scenario) => (
+                    <tr key={scenario.name}>
+                      <td className="whitespace-nowrap px-3 py-3 font-semibold text-zinc-950">
+                        {scenario.name}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatCurrency(scenario.powerPriceUsdMwh, {
+                          compact: false,
+                          maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                        })}
+                        /MWh
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatMwh(scenario.annualMwh)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatCurrency(scenario.gasPriceUsdMmbtu, {
+                          compact: false,
+                          maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                        })}
+                        /MMBtu
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatCurrency(scenario.totalCapexBase)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatCurrency(scenario.annualRevenue)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatCurrency(scenario.totalAnnualOpex)}
+                      </td>
+                      <td
+                        className={`whitespace-nowrap px-3 py-3 font-semibold ${
+                          scenario.ebitda < 0 ? "text-red-700" : "text-zinc-950"
+                        }`}
+                      >
+                        {formatCurrency(scenario.ebitda)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatPaybackYears(scenario.simplePaybackYears)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 text-zinc-700">
+                        {formatCurrency(scenario.breakEvenPowerPrice, {
+                          compact: false,
+                          maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                        })}
+                        /MWh
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
           <FinancialCharts
             ebitdaByPowerPrice={ebitdaByPowerPrice}
             paybackByCapex={paybackByCapex}
             revenueOpexEbitda={revenueOpexEbitda}
+            scenarioEbitda={scenarioEbitda}
           />
 
           <div className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">

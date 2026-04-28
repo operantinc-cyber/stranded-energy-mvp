@@ -33,13 +33,27 @@ export function FinancialCharts({
   ebitdaByPowerPrice,
   paybackByCapex,
   revenueOpexEbitda,
+  scenarioEbitda,
 }: {
   ebitdaByPowerPrice: ChartPoint[];
   paybackByCapex: ChartPoint[];
   revenueOpexEbitda: ChartPoint[];
+  scenarioEbitda: ChartPoint[];
 }) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
+      <ChartShell title="Scenario EBITDA">
+        <ResponsiveContainer height="100%" width="100%">
+          <BarChart data={scenarioEbitda} margin={{ left: 12, right: 12 }}>
+            <CartesianGrid stroke="#e4e4e7" strokeDasharray="3 3" />
+            <XAxis dataKey="label" tick={{ fontSize: 12 }} />
+            <YAxis tick={{ fontSize: 12 }} />
+            <Tooltip />
+            <Bar dataKey="value" fill="#7c3aed" name="EBITDA" />
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartShell>
+
       <ChartShell title="EBITDA vs Power Price">
         <ResponsiveContainer height="100%" width="100%">
           <LineChart data={ebitdaByPowerPrice} margin={{ left: 12, right: 12 }}>
@@ -95,4 +109,3 @@ export function FinancialCharts({
     </div>
   );
 }
-

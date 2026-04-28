@@ -39,6 +39,12 @@ export type FinancialResult = FinancialAssumptions & {
   breakEvenPowerPrice: number;
 };
 
+export type FinancialScenarioName = "Low Case" | "Base Case" | "High Case";
+
+export type FinancialScenario = FinancialResult & {
+  name: FinancialScenarioName;
+};
+
 export function normalizeFinancialInputs(
   inputs: FinancialInputs,
 ): FinancialAssumptions {
@@ -126,3 +132,40 @@ export function calculateFinancialScreen(
   };
 }
 
+function scenarioResult(
+  name: FinancialScenarioName,
+  inputs: FinancialInputs,
+): FinancialScenario {
+  return {
+    name,
+    ...calculateFinancialScreen(inputs),
+  };
+}
+
+export function calculateFinancialScenarios(
+  baseInputs: FinancialInputs,
+): FinancialScenario[] {
+  const base = normalizeFinancialInputs(baseInputs);
+
+  return [
+    scenarioResult("Low Case", {
+      ...base,
+      projectSizeMw: base.projectSizeMw * 0.9,
+      annualMwh: base.annualMwh * 0.9,
+      powerPriceUsdMwh: base.powerPriceUsdMwh * 0.85,
+      gasPriceUsdMmbtu: base.gasPriceUsdMmbtu * 1.15,
+      annualFuelMmbtu: base.annualFuelMmbtu * 0.9,
+      capexPerKwBase: base.capexPerKwBase * 1.15,
+    }),
+    scenarioResult("Base Case", base),
+    scenarioResult("High Case", {
+      ...base,
+      projectSizeMw: base.projectSizeMw * 1.05,
+      annualMwh: base.annualMwh * 1.05,
+      powerPriceUsdMwh: base.powerPriceUsdMwh * 1.15,
+      gasPriceUsdMmbtu: base.gasPriceUsdMmbtu * 0.9,
+      annualFuelMmbtu: base.annualFuelMmbtu * 1.05,
+      capexPerKwBase: base.capexPerKwBase * 0.9,
+    }),
+  ];
+}
