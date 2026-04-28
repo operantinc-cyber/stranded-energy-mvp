@@ -138,7 +138,20 @@ Useful checks:
 
 ```bash
 pnpm lint
+pnpm test
 pnpm build
+```
+
+Run tests once:
+
+```bash
+pnpm test
+```
+
+Run tests in watch mode while developing:
+
+```bash
+pnpm test:watch
 ```
 
 ## End-To-End Workflow
@@ -230,4 +243,3 @@ Practical next items:
 - GIS/map view.
 - Advanced financial model with debt, tax, depreciation, IRR, NPV, and sensitivities.
 - Data room export.
-
