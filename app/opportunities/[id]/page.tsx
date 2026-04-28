@@ -45,7 +45,7 @@ export default async function OpportunityDetailPage({
               className="inline-flex h-10 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800"
               href={`/opportunities/${opportunity.id}/score`}
             >
-              Score Opportunity
+              Run Score
             </Link>
             <Link
               className="inline-flex h-10 items-center justify-center rounded-md border border-blue-200 px-4 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
@@ -57,13 +57,13 @@ export default async function OpportunityDetailPage({
               className="inline-flex h-10 items-center justify-center rounded-md border border-violet-200 px-4 text-sm font-semibold text-violet-700 transition hover:bg-violet-50"
               href={`/opportunities/${opportunity.id}/financial`}
             >
-              Financial
+              Financial Screen
             </Link>
             <Link
               className="inline-flex h-10 items-center justify-center rounded-md border border-amber-200 px-4 text-sm font-semibold text-amber-700 transition hover:bg-amber-50"
               href={`/opportunities/${opportunity.id}/risks`}
             >
-              Risks
+              Risk Register
             </Link>
             <Link
               className="inline-flex h-10 items-center justify-center rounded-md border border-teal-200 px-4 text-sm font-semibold text-teal-700 transition hover:bg-teal-50"
@@ -75,7 +75,7 @@ export default async function OpportunityDetailPage({
               className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
               href={`/opportunities/${opportunity.id}/memo`}
             >
-              Memo
+              Project Memo
             </Link>
             <form action={deleteAction}>
               <button

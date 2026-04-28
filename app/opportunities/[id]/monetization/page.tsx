@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { setPreferredMonetization } from "@/app/actions";
 import { prisma } from "@/lib/db";
+import { formatScore } from "@/lib/format";
 import { compareMonetizationOptions } from "@/lib/monetization";
 
 function Badge({ value }: { value: string }) {
@@ -125,7 +126,10 @@ export default async function MonetizationPage({
                     <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
                       Score
                     </p>
-                    <p className="mt-1 text-2xl font-semibold">{option.score}</p>
+                    <p className="mt-1 text-2xl font-semibold">
+                      {formatScore(option.score)}
+                      <span className="text-sm font-medium text-zinc-500">/100</span>
+                    </p>
                   </div>
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">

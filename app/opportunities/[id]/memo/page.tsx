@@ -75,7 +75,7 @@ function PreviewSection({
       <h3 className="text-base font-semibold text-zinc-950">
         {index}. {label}
       </h3>
-      <div className="mt-2 whitespace-pre-line text-sm leading-6 text-zinc-700">
+      <div className="mt-2 max-w-4xl whitespace-pre-line text-sm leading-6 text-zinc-700">
         {value || "Not provided."}
       </div>
     </section>

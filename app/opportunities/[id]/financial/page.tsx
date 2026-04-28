@@ -3,29 +3,13 @@ import { notFound } from "next/navigation";
 import { saveFinancialScreenResult } from "@/app/actions";
 import { prisma } from "@/lib/db";
 import { calculateFinancialScreen } from "@/lib/financial";
+import {
+  formatCurrency,
+  formatMmbtu,
+  formatMwh,
+  formatPaybackYears,
+} from "@/lib/format";
 import { FinancialCharts } from "./charts";
-
-function money(value: number, digits = 1) {
-  const abs = Math.abs(value);
-  const prefix = value < 0 ? "-$" : "$";
-
-  if (abs >= 1_000_000) {
-    return `${prefix}${(abs / 1_000_000).toFixed(digits)}M`;
-  }
-
-  if (abs >= 1_000) {
-    return `${prefix}${(abs / 1_000).toFixed(digits)}K`;
-  }
-
-  return `${prefix}${abs.toFixed(0)}`;
-}
-
-function number(value: number, digits = 1) {
-  return new Intl.NumberFormat("en", {
-    maximumFractionDigits: digits,
-    minimumFractionDigits: digits,
-  }).format(value);
-}
 
 function Field({
   label,
@@ -66,14 +50,22 @@ function Field({
 function OutputCard({
   label,
   value,
+  emphasis = "normal",
 }: {
   label: string;
   value: string;
+  emphasis?: "normal" | "negative";
 }) {
   return (
     <div className="rounded-lg border border-zinc-200 bg-white p-4 shadow-sm">
       <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">{label}</p>
-      <p className="mt-2 text-2xl font-semibold text-zinc-950">{value}</p>
+      <p
+        className={`mt-2 text-2xl font-semibold ${
+          emphasis === "negative" ? "text-red-700" : "text-zinc-950"
+        }`}
+      >
+        {value}
+      </p>
     </div>
   );
 }
@@ -214,31 +206,41 @@ export default async function FinancialPage({
           </section>
 
           <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <OutputCard label="Total Capex Low" value={money(result.totalCapexLow)} />
-            <OutputCard label="Total Capex Base" value={money(result.totalCapexBase)} />
-            <OutputCard label="Total Capex High" value={money(result.totalCapexHigh)} />
-            <OutputCard label="Annual Revenue" value={money(result.annualRevenue)} />
-            <OutputCard label="Annual Fuel Cost" value={money(result.annualFuelCost)} />
-            <OutputCard label="Annual Fixed Opex" value={money(result.annualFixedOpex)} />
-            <OutputCard label="Annual Variable Opex" value={money(result.annualVariableOpex)} />
-            <OutputCard label="Total Annual Opex" value={money(result.totalAnnualOpex)} />
-            <OutputCard label="EBITDA" value={money(result.ebitda)} />
+            <OutputCard label="Total Capex Low" value={formatCurrency(result.totalCapexLow)} />
+            <OutputCard label="Total Capex Base" value={formatCurrency(result.totalCapexBase)} />
+            <OutputCard label="Total Capex High" value={formatCurrency(result.totalCapexHigh)} />
+            <OutputCard label="Annual Revenue" value={formatCurrency(result.annualRevenue)} />
+            <OutputCard label="Annual Fuel Cost" value={formatCurrency(result.annualFuelCost)} />
+            <OutputCard label="Annual Fixed Opex" value={formatCurrency(result.annualFixedOpex)} />
+            <OutputCard label="Annual Variable Opex" value={formatCurrency(result.annualVariableOpex)} />
+            <OutputCard label="Total Annual Opex" value={formatCurrency(result.totalAnnualOpex)} />
+            <OutputCard
+              emphasis={result.ebitda < 0 ? "negative" : "normal"}
+              label="EBITDA"
+              value={formatCurrency(result.ebitda)}
+            />
             <OutputCard
               label="Simple Payback"
-              value={
-                result.simplePaybackYears == null
-                  ? "N/A"
-                  : `${number(result.simplePaybackYears, 1)} yrs`
-              }
+              value={formatPaybackYears(result.simplePaybackYears)}
             />
             <OutputCard
               label="Break-even Power Price"
-              value={`$${number(result.breakEvenPowerPrice, 2)}/MWh`}
+              value={`${formatCurrency(result.breakEvenPowerPrice, {
+                compact: false,
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2,
+              })}/MWh`}
             />
             <OutputCard
               label="Last Saved EBITDA"
-              value={latestFinancial ? money(latestFinancial.ebitda) : "None"}
+              value={latestFinancial ? formatCurrency(latestFinancial.ebitda) : "None"}
             />
+          </section>
+
+          <section className="rounded-lg border border-zinc-200 bg-white p-4 text-sm text-zinc-700 shadow-sm">
+            <span className="font-semibold text-zinc-950">Screening basis:</span>{" "}
+            {formatMwh(assumptions.annualMwh)} and{" "}
+            {formatMmbtu(assumptions.annualFuelMmbtu)} annual fuel.
           </section>
 
           <FinancialCharts

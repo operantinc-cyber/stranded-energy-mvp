@@ -6,13 +6,13 @@ import {
   calculateGasToPower,
   type GasToPowerResult,
 } from "@/lib/gasToPower";
-
-function formatNumber(value: number, digits = 1) {
-  return new Intl.NumberFormat("en", {
-    maximumFractionDigits: digits,
-    minimumFractionDigits: digits,
-  }).format(value);
-}
+import {
+  formatMmbtu,
+  formatMw,
+  formatMwh,
+  formatNumber,
+  formatPercent,
+} from "@/lib/format";
 
 function Field({
   label,
@@ -179,14 +179,14 @@ export default async function GasToPowerPage({
               />
               <Field
                 defaultValue={assumptions.availabilityPercent}
-                label="Availability"
+                label={`Availability (${formatPercent(assumptions.availabilityPercent)})`}
                 max={100}
                 name="availabilityPercent"
                 suffix="%"
               />
               <Field
                 defaultValue={assumptions.parasiticLoadPercent}
-                label="Parasitic Load"
+                label={`Parasitic Load (${formatPercent(assumptions.parasiticLoadPercent)})`}
                 max={50}
                 name="parasiticLoadPercent"
                 suffix="%"
@@ -197,37 +197,37 @@ export default async function GasToPowerPage({
           <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <OutputCard
               label="Theoretical MW"
-              value={`${formatNumber(calculated.theoreticalMw)} MW`}
+              value={formatMw(calculated.theoreticalMw)}
             />
             <OutputCard
               label="Practical MW Low"
-              value={`${formatNumber(calculated.practicalMwLow)} MW`}
+              value={formatMw(calculated.practicalMwLow)}
             />
             <OutputCard
               label="Practical MW High"
-              value={`${formatNumber(calculated.practicalMwHigh)} MW`}
+              value={formatMw(calculated.practicalMwHigh)}
             />
             <OutputCard
               label="Recommended MW"
-              value={`${formatNumber(calculated.recommendedMw)} MW`}
+              value={formatMw(calculated.recommendedMw)}
             />
             <OutputCard
               label="Annual MWh"
-              value={`${formatNumber(calculated.annualMwh, 0)} MWh`}
+              value={formatMwh(calculated.annualMwh)}
             />
             <OutputCard
               label="Fuel Energy MMBtu/day"
-              value={`${formatNumber(calculated.fuelEnergyMmbtuDay, 0)} MMBtu/day`}
+              value={`${formatMmbtu(calculated.fuelEnergyMmbtuDay)}/day`}
             />
             <OutputCard
               label="Fuel Energy MMBtu/year"
-              value={`${formatNumber(calculated.fuelEnergyMmbtuYear, 0)} MMBtu/year`}
+              value={`${formatMmbtu(calculated.fuelEnergyMmbtuYear)}/year`}
             />
             <OutputCard
               label="Last Saved"
               value={
                 latestResult
-                  ? `${formatNumber(latestResult.recommendedMw)} MW`
+                  ? formatMw(latestResult.recommendedMw)
                   : "None"
               }
             />
@@ -255,22 +255,24 @@ export default async function GasToPowerPage({
                     <tr key={row.label}>
                       <td className="px-4 py-3 font-medium text-zinc-950">{row.label}</td>
                       <td className="px-4 py-3 text-zinc-700">
-                        {formatNumber(row.result.availableGasMMscfd, 2)} MMscfd
+                        {formatNumber(row.result.availableGasMMscfd, {
+                          maximumFractionDigits: 2,
+                        })} MMscfd
                       </td>
                       <td className="px-4 py-3 text-zinc-700">
-                        {formatNumber(row.result.theoreticalMw)} MW
+                        {formatMw(row.result.theoreticalMw)}
                       </td>
                       <td className="px-4 py-3 text-zinc-700">
-                        {formatNumber(row.result.practicalMwLow)} MW
+                        {formatMw(row.result.practicalMwLow)}
                       </td>
                       <td className="px-4 py-3 text-zinc-700">
-                        {formatNumber(row.result.practicalMwHigh)} MW
+                        {formatMw(row.result.practicalMwHigh)}
                       </td>
                       <td className="px-4 py-3 text-zinc-700">
-                        {formatNumber(row.result.recommendedMw)} MW
+                        {formatMw(row.result.recommendedMw)}
                       </td>
                       <td className="px-4 py-3 text-zinc-700">
-                        {formatNumber(row.result.annualMwh, 0)} MWh
+                        {formatMwh(row.result.annualMwh)}
                       </td>
                     </tr>
                   ))}

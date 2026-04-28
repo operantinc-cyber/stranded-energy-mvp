@@ -145,7 +145,22 @@ function SeverityBadge({ severity }: { severity: number }) {
 
   return (
     <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ring-1 ${tone}`}>
-      {severity}
+      Severity {severity}/9
+    </span>
+  );
+}
+
+function LevelBadge({ value }: { value: string }) {
+  const tone =
+    value === "High"
+      ? "bg-red-50 text-red-700 ring-red-100"
+      : value === "Medium"
+        ? "bg-amber-50 text-amber-800 ring-amber-100"
+        : "bg-emerald-50 text-emerald-700 ring-emerald-100";
+
+  return (
+    <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ring-1 ${tone}`}>
+      {value}
     </span>
   );
 }
@@ -260,7 +275,10 @@ export default async function RisksPage({
                         {risk.riskDescription}
                       </p>
                       <p className="mt-2 text-sm text-zinc-600">
-                        Probability: {risk.probability} - Impact: {risk.impact}
+                        <span className="mr-2">Probability:</span>
+                        <LevelBadge value={risk.probability} />
+                        <span className="mx-2">Impact:</span>
+                        <LevelBadge value={risk.impact} />
                       </p>
                     </div>
                     <form action={deleteAction}>
