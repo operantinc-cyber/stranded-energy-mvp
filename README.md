@@ -1,36 +1,233 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stranded Energy MVP
 
-## Getting Started
+Stranded Energy MVP is a local demo app for screening stranded gas and marginal field development opportunities. It helps a founder or commercial team move from a raw opportunity to a structured screening view, including score, gas-to-power sizing, preliminary economics, risks, monetization options, and a draft project memo.
 
-First, run the development server:
+This is a local MVP. It is designed for demos, workflow testing, and early diligence conversations.
+
+## What The App Does
+
+The app helps you:
+
+- Create and edit energy opportunities.
+- Capture resource, infrastructure, commercial, and regulatory inputs.
+- Score an opportunity across 10 screening categories.
+- Estimate gas-to-power capacity from available gas.
+- Run a preliminary financial screen.
+- Build a risk register.
+- Compare monetization options.
+- Select a preferred monetization concept.
+- Generate, edit, and export a Markdown project memo.
+- See latest score, classification, recommended MW, estimated capex, EBITDA, and last updated values on the dashboard.
+
+## Who It Is For
+
+This MVP is for:
+
+- Founders evaluating stranded energy opportunities.
+- Energy developers screening early-stage projects.
+- Commercial teams comparing monetization routes.
+- Investors reviewing preliminary development logic.
+- Advisors preparing early project memos.
+
+It is not intended for final engineering, legal, environmental, interconnection, reserve, or investment decisions.
+
+## Current MVP Modules
+
+- **Dashboard:** overview of all opportunities and latest saved outputs.
+- **Opportunity CRUD:** create, edit, and delete opportunities.
+- **Scoring:** 10-category deterministic opportunity score and classification.
+- **Gas-to-Power:** screening calculator for theoretical, practical, and recommended MW.
+- **Financial Screen:** preliminary capex, revenue, opex, EBITDA, payback, and break-even view.
+- **Risk Register:** default and manual risks with probability, impact, severity, mitigation, and owner.
+- **Monetization Options:** ranked rule-based options such as gas-to-power, pipeline tie-in, CNG, mini-LNG, and defer.
+- **Memo Generator:** draft project memo using saved opportunity data and latest analysis snapshots.
+- **Markdown Export:** local export of the project memo.
+
+## Project Stack
+
+- Next.js App Router
+- TypeScript
+- Tailwind
+- Prisma 7
+- SQLite
+- Prisma `better-sqlite3` adapter
+- Recharts
+- pnpm
+
+## Prerequisites
+
+Install these first:
+
+- Node.js 20 or newer
+- pnpm
+- Git
+
+No external database, API key, or cloud service is required for the local MVP.
+
+## Setup Instructions
+
+Open a terminal in the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd C:\Users\kunle\Projects\stranded-energy-mvp
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Generate Prisma Client:
 
-## Learn More
+```bash
+pnpm prisma generate
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create `.env` from the example file if needed:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cp .env.example .env
+```
 
-## Deploy on Vercel
+For local demos, `.env` should contain:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+DATABASE_URL="file:./dev.db"
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app uses Prisma 7 with SQLite through the Prisma `better-sqlite3` adapter. The shared Prisma Client is configured in `lib/db.ts`.
+
+## Prisma Migration And Seed
+
+Run the migration:
+
+```bash
+pnpm prisma migrate dev --name init
+```
+
+Load seed data:
+
+```bash
+pnpm prisma db seed
+```
+
+Open Prisma Studio if you want to inspect or edit database records directly:
+
+```bash
+pnpm prisma studio
+```
+
+## Run The App
+
+Start the local development server:
+
+```bash
+pnpm dev
+```
+
+Open the app:
+
+```text
+http://localhost:3000
+```
+
+Useful checks:
+
+```bash
+pnpm lint
+pnpm build
+```
+
+## End-To-End Workflow
+
+Use the seed opportunity `West Texas Stranded Gas Power Screen` for a full demo.
+
+1. Open the dashboard at `http://localhost:3000`.
+2. Click `Edit` on `West Texas Stranded Gas Power Screen`.
+3. Review the opportunity profile and the resource, infrastructure, commercial, and regulatory data.
+4. Click `Score Opportunity`, review suggested scores, optionally override values, and save.
+5. Click `Gas-to-Power`, review prefilled gas assumptions, check sensitivity cases, and save.
+6. Click `Financial`, review the prefilled gas-to-power outputs, check economics and charts, and save.
+7. Click `Risks`, generate default risks, then edit owners, mitigations, next actions, and statuses.
+8. Click `Monetization`, review ranked options, and mark one option as preferred.
+9. Click `Memo`, generate the project memo, edit any sections, save, and export Markdown.
+10. Return to the dashboard and show the latest saved score, classification, recommended MW, capex, EBITDA, and last updated date.
+
+## Known Limitations
+
+- Screening-level calculations only.
+- No authentication or user roles.
+- No live GIS, map layers, satellite imagery, pipeline databases, or market data.
+- No live interconnection modeling.
+- No engineering drawings or equipment design.
+- No legal, regulatory, environmental, tax, or land-title determination.
+- No bankable project finance model.
+- No automated external data ingestion.
+- No PDF export yet.
+- SQLite is used for local development and demos, not production operations.
+- Server action validation is intentionally simple and may show framework errors for invalid manual submissions.
+
+## Troubleshooting
+
+If dependencies are missing:
+
+```bash
+pnpm install
+```
+
+If Prisma Client is out of date:
+
+```bash
+pnpm prisma generate
+```
+
+If the database is empty:
+
+```bash
+pnpm prisma db seed
+```
+
+If migrations are not applied:
+
+```bash
+pnpm prisma migrate dev --name init
+```
+
+If the app will not start, make sure `.env` exists and includes:
+
+```bash
+DATABASE_URL="file:./dev.db"
+```
+
+If port `3000` is already in use, stop the other local server or run Next.js on another port:
+
+```bash
+pnpm dev -- -p 3001
+```
+
+If you want to inspect data directly:
+
+```bash
+pnpm prisma studio
+```
+
+## V2 Roadmap
+
+Practical next items:
+
+- PDF export for project memos.
+- Scenario comparison for gas-to-power and financial cases.
+- Better unit tests for scoring, gas-to-power, financial, risk, monetization, and memo logic.
+- Data reset command for demos.
+- Shared formatting helpers for money, MW, MWh, dates, and percentages.
+- Opportunity pipeline Kanban.
+- Document upload and simple data room.
+- AI-assisted memo drafting with explicit source references.
+- Counterparty CRM.
+- GIS/map view.
+- Advanced financial model with debt, tax, depreciation, IRR, NPV, and sensitivities.
+- Data room export.
+
