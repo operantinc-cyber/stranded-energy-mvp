@@ -37,6 +37,8 @@ export type GeneratedProjectMemo = {
   developmentRoadmap: string;
   goNoGoRecommendation: string;
   nextActions: string;
+  assumptions: string;
+  dataGaps: string;
 };
 
 function missing(value: unknown) {
@@ -260,7 +262,12 @@ export function generateProjectMemo(bundle: MemoBundle): GeneratedProjectMemo {
     riskSummary,
     developmentRoadmap,
     goNoGoRecommendation: goNoGo(latestScore),
-    nextActions: `${nextActions}\n\nAssumptions:\n${assumptions(bundle)}\n\nData gaps:\n${gaps.length > 0 ? gaps.join(", ") : "No major data gaps were automatically identified."}`,
+    nextActions,
+    assumptions: assumptions(bundle),
+    dataGaps:
+      gaps.length > 0
+        ? gaps.join(", ")
+        : "No major data gaps were automatically identified.",
   };
 }
 
@@ -308,6 +315,11 @@ ${memo.goNoGoRecommendation}
 
 ## 13. Immediate Next Actions
 ${memo.nextActions}
+
+## 14. Assumptions
+${memo.assumptions}
+
+## 15. Data Gaps
+${memo.dataGaps}
 `;
 }
-

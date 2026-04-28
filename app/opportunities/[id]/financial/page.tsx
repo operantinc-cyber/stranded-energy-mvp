@@ -112,14 +112,23 @@ export default async function FinancialPage({
     latestFinancial && latestFinancial.gasPriceUsdMmbtu > 0
       ? latestFinancial.annualFuelCost / latestFinancial.gasPriceUsdMmbtu
       : null;
+  const useLatestGasToPower =
+    latestGasToPower &&
+    (!latestFinancial ||
+      latestGasToPower.createdAt.getTime() >= latestFinancial.createdAt.getTime());
   const assumptions = {
-    projectSizeMw:
-      latestFinancial?.projectSizeMw ?? latestGasToPower?.recommendedMw ?? 1,
-    annualMwh: latestFinancial?.annualMwh ?? latestGasToPower?.annualMwh ?? 1,
+    projectSizeMw: useLatestGasToPower
+      ? latestGasToPower.recommendedMw
+      : latestFinancial?.projectSizeMw ?? 1,
+    annualMwh: useLatestGasToPower
+      ? latestGasToPower.annualMwh
+      : latestFinancial?.annualMwh ?? 1,
     powerPriceUsdMwh: latestFinancial?.powerPriceUsdMwh ?? 70,
     gasPriceUsdMmbtu: latestFinancial?.gasPriceUsdMmbtu ?? 2.5,
     annualFuelMmbtu:
-      savedAnnualFuelMmbtu ?? latestGasToPower?.fuelEnergyMmbtuYear ?? 0,
+      useLatestGasToPower
+        ? latestGasToPower.fuelEnergyMmbtuYear
+        : savedAnnualFuelMmbtu ?? 0,
     capexPerKwLow: latestFinancial?.capexPerKwLow ?? 1000,
     capexPerKwBase: latestFinancial?.capexPerKwBase ?? 1400,
     capexPerKwHigh: latestFinancial?.capexPerKwHigh ?? 1800,

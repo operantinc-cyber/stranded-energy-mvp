@@ -196,6 +196,24 @@ export default async function Home() {
                             >
                               Financial
                             </Link>
+                            <Link
+                              className="inline-flex h-8 items-center justify-center rounded-md border border-amber-200 px-3 text-xs font-semibold text-amber-700 transition hover:bg-amber-50"
+                              href={`/opportunities/${opportunity.id}/risks`}
+                            >
+                              Risks
+                            </Link>
+                            <Link
+                              className="inline-flex h-8 items-center justify-center rounded-md border border-teal-200 px-3 text-xs font-semibold text-teal-700 transition hover:bg-teal-50"
+                              href={`/opportunities/${opportunity.id}/monetization`}
+                            >
+                              Monetize
+                            </Link>
+                            <Link
+                              className="inline-flex h-8 items-center justify-center rounded-md border border-zinc-300 px-3 text-xs font-semibold text-zinc-700 transition hover:bg-white"
+                              href={`/opportunities/${opportunity.id}/memo`}
+                            >
+                              Memo
+                            </Link>
                             <form action={deleteAction}>
                               <button
                                 className="inline-flex h-8 items-center justify-center rounded-md border border-red-200 px-3 text-xs font-semibold text-red-700 transition hover:bg-red-50"

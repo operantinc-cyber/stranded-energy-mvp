@@ -28,7 +28,9 @@ const fields: Array<{
   { key: "riskSummary", label: "Risk Register Summary" },
   { key: "developmentRoadmap", label: "Development Roadmap" },
   { key: "goNoGoRecommendation", label: "Go / No-Go Recommendation" },
-  { key: "nextActions", label: "Immediate Next Actions, Assumptions, and Data Gaps" },
+  { key: "nextActions", label: "Immediate Next Actions" },
+  { key: "assumptions", label: "Assumptions" },
+  { key: "dataGaps", label: "Data Gaps" },
 ];
 
 function slug(value: string) {
@@ -143,7 +145,18 @@ export default async function MemoPage({
     goNoGoRecommendation:
       opportunity.projectMemo?.goNoGoRecommendation ??
       generated.goNoGoRecommendation,
-    nextActions: opportunity.projectMemo?.nextActions ?? generated.nextActions,
+    nextActions: opportunity.projectMemo?.nextActions
+      ? opportunity.projectMemo.nextActions
+          .split("\n\nAssumptions:")[0]
+          .trim()
+      : generated.nextActions,
+    assumptions:
+      opportunity.projectMemo?.nextActions?.match(
+        /Assumptions:\n([\s\S]*?)(?:\n\nData gaps:|$)/,
+      )?.[1] ?? generated.assumptions,
+    dataGaps:
+      opportunity.projectMemo?.nextActions?.match(/Data gaps:\n([\s\S]*)/)?.[1] ??
+      generated.dataGaps,
   };
   const saveAction = saveProjectMemo.bind(null, opportunity.id);
   const generateAction = generateAndSaveProjectMemo.bind(null, opportunity.id);
@@ -239,4 +252,3 @@ export default async function MemoPage({
     </main>
   );
 }
-

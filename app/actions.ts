@@ -442,14 +442,25 @@ export async function generateRisks(id: string) {
     throw new Error("Opportunity not found");
   }
 
-  const risks = generateDefaultRisks(opportunity);
-
-  await prisma.riskItem.createMany({
-    data: risks.map((risk) => ({
-      opportunityId: id,
-      ...risk,
-    })),
+  const existingRisks = await prisma.riskItem.findMany({
+    where: { opportunityId: id },
+    select: { riskDescription: true },
   });
+  const existingDescriptions = new Set(
+    existingRisks.map((risk) => risk.riskDescription),
+  );
+  const risks = generateDefaultRisks(opportunity).filter(
+    (risk) => !existingDescriptions.has(risk.riskDescription),
+  );
+
+  if (risks.length > 0) {
+    await prisma.riskItem.createMany({
+      data: risks.map((risk) => ({
+        opportunityId: id,
+        ...risk,
+      })),
+    });
+  }
 
   revalidatePath(`/opportunities/${id}/risks`);
   redirect(`/opportunities/${id}/risks`);
@@ -477,6 +488,10 @@ export async function setPreferredMonetization(id: string, formData: FormData) {
 }
 
 function projectMemoData(formData: FormData) {
+  const nextActions = text(formData, "nextActions");
+  const assumptions = text(formData, "assumptions");
+  const dataGaps = text(formData, "dataGaps");
+
   return {
     executiveSummary: text(formData, "executiveSummary"),
     assetDescription: text(formData, "assetDescription"),
@@ -490,7 +505,7 @@ function projectMemoData(formData: FormData) {
     riskSummary: text(formData, "riskSummary"),
     developmentRoadmap: text(formData, "developmentRoadmap"),
     goNoGoRecommendation: text(formData, "goNoGoRecommendation"),
-    nextActions: text(formData, "nextActions"),
+    nextActions: `${nextActions ?? ""}\n\nAssumptions:\n${assumptions ?? ""}\n\nData gaps:\n${dataGaps ?? ""}`.trim(),
     memoStatus: text(formData, "memoStatus") ?? "Draft",
   };
 }
@@ -534,18 +549,31 @@ export async function generateAndSaveProjectMemo(id: string) {
   const memo = generateProjectMemo(opportunity);
   const recommendedConcept =
     opportunity.projectMemo?.recommendedConcept ?? memo.recommendedConcept;
+  const memoData = {
+    executiveSummary: memo.executiveSummary,
+    assetDescription: memo.assetDescription,
+    resourceBasis: memo.resourceBasis,
+    infrastructureReview: memo.infrastructureReview,
+    monetizationOptions: memo.monetizationOptions,
+    recommendedConcept,
+    technicalDesign: memo.technicalDesign,
+    commercialStructure: memo.commercialStructure,
+    financialSummary: memo.financialSummary,
+    riskSummary: memo.riskSummary,
+    developmentRoadmap: memo.developmentRoadmap,
+    goNoGoRecommendation: memo.goNoGoRecommendation,
+    nextActions: `${memo.nextActions}\n\nAssumptions:\n${memo.assumptions}\n\nData gaps:\n${memo.dataGaps}`,
+  };
 
   await prisma.projectMemo.upsert({
     where: { opportunityId: id },
     create: {
       opportunityId: id,
-      ...memo,
-      recommendedConcept,
+      ...memoData,
       memoStatus: "Draft",
     },
     update: {
-      ...memo,
-      recommendedConcept,
+      ...memoData,
       memoStatus: opportunity.projectMemo?.memoStatus ?? "Draft",
     },
   });
