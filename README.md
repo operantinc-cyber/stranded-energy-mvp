@@ -16,7 +16,7 @@ The app helps you:
 - Build a risk register.
 - Compare monetization options.
 - Select a preferred monetization concept.
-- Generate, edit, and export a Markdown project memo.
+- Generate, edit, and export a Markdown or print-to-PDF project memo.
 - See latest score, classification, recommended MW, estimated capex, EBITDA, and last updated values on the dashboard.
 
 ## Who It Is For
@@ -41,7 +41,7 @@ It is not intended for final engineering, legal, environmental, interconnection,
 - **Risk Register:** default and manual risks with probability, impact, severity, mitigation, and owner.
 - **Monetization Options:** ranked rule-based options such as gas-to-power, pipeline tie-in, CNG, mini-LNG, and defer.
 - **Memo Generator:** draft project memo using saved opportunity data and latest analysis snapshots.
-- **Markdown Export:** local export of the project memo.
+- **Memo Export:** local Markdown export and browser print-to-PDF export.
 
 ## Project Stack
 
@@ -188,8 +188,17 @@ Use the seed opportunity `West Texas Stranded Gas Power Screen` for a full demo.
 6. Click `Financial`, review the prefilled gas-to-power outputs, check economics and charts, and save.
 7. Click `Risks`, generate default risks, then edit owners, mitigations, next actions, and statuses.
 8. Click `Monetization`, review ranked options, and mark one option as preferred.
-9. Click `Memo`, generate the project memo, edit any sections, save, and export Markdown.
+9. Click `Memo`, generate the project memo, edit any sections, save, and export Markdown or open the print view to save as PDF.
 10. Return to the dashboard and show the latest saved score, classification, recommended MW, capex, EBITDA, and last updated date.
+
+## Exporting Project Memos
+
+The memo page supports two local export paths:
+
+- `Export Markdown` downloads an editable `.md` file.
+- `Print / Save as PDF` opens a clean print view. Use the browser print dialog and choose `Save as PDF`.
+
+The PDF path uses the browser print feature, so no external PDF service or API is required.
 
 ## Known Limitations
 
@@ -201,7 +210,7 @@ Use the seed opportunity `West Texas Stranded Gas Power Screen` for a full demo.
 - No legal, regulatory, environmental, tax, or land-title determination.
 - No bankable project finance model.
 - No automated external data ingestion.
-- No PDF export yet.
+- PDF export uses the browser print dialog rather than a server-side PDF renderer.
 - SQLite is used for local development and demos, not production operations.
 - Server action validation is intentionally simple and may show framework errors for invalid manual submissions.
 
@@ -253,7 +262,6 @@ pnpm prisma studio
 
 Practical next items:
 
-- PDF export for project memos.
 - Scenario comparison for gas-to-power and financial cases.
 - Better unit tests for scoring, gas-to-power, financial, risk, monetization, and memo logic.
 - Data reset command for demos.

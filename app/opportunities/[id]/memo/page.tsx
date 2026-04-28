@@ -7,6 +7,7 @@ import {
 import { prisma } from "@/lib/db";
 import {
   generateProjectMemo,
+  MEMO_DISCLAIMER,
   projectMemoToMarkdown,
   type GeneratedProjectMemo,
 } from "@/lib/memo";
@@ -193,6 +194,13 @@ export default async function MemoPage({
               filename={`${slug(opportunity.name)}-project-memo.md`}
               markdown={markdown}
             />
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50"
+              href={`/opportunities/${opportunity.id}/memo/print`}
+              target="_blank"
+            >
+              Print / Save as PDF
+            </Link>
           </div>
         </div>
 
@@ -237,6 +245,14 @@ export default async function MemoPage({
 
         <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
           <h2 className="text-lg font-semibold">Preview</h2>
+          <div className="mt-4 rounded-md border border-zinc-200 bg-zinc-50 p-4">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              Screening Disclaimer
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-zinc-700">
+              {MEMO_DISCLAIMER}
+            </p>
+          </div>
           <div className="mt-2">
             {fields.map((field, index) => (
               <PreviewSection

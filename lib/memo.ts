@@ -41,6 +41,9 @@ export type GeneratedProjectMemo = {
   dataGaps: string;
 };
 
+export const MEMO_DISCLAIMER =
+  "This development screen is a preliminary commercial and technical screening document. It is not a final engineering design, investment recommendation, legal opinion, environmental opinion, reserve certification, interconnection study, or bankable feasibility study. All assumptions require validation by qualified technical, legal, regulatory, and financial advisors before investment or execution.";
+
 function missing(value: unknown) {
   return value == null || value === "";
 }
@@ -276,6 +279,8 @@ export function projectMemoToMarkdown(
   memo: GeneratedProjectMemo,
 ) {
   return `# ${opportunityName} Project Memo
+
+> ${MEMO_DISCLAIMER}
 
 ## 1. Executive Summary
 ${memo.executiveSummary}
