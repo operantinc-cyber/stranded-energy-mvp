@@ -13,6 +13,7 @@ The app helps you:
 - Track target counterparties with a lightweight CRM template.
 - Package the concierge MVP service with founder-ready pricing and proposal materials.
 - Explain the investor and partner thesis with reusable one-pagers.
+- View manually entered asset coordinates on a lightweight map.
 - Capture resource, infrastructure, commercial, and regulatory inputs.
 - Score an opportunity across 10 screening categories.
 - Estimate gas-to-power capacity from available gas.
@@ -42,6 +43,7 @@ It is not intended for final engineering, legal, environmental, interconnection,
 - **Counterparty CRM:** target list template, outreach playbook, and email templates for market testing.
 - **Commercial Package:** service overview, pricing ranges, proposal template, and report disclaimer.
 - **Investor/Partner Materials:** thesis deck outline, investor one-pager, partner one-pagers, and advisor note.
+- **Map/GIS View:** lightweight OpenStreetMap asset location view using manually entered coordinates.
 - **Opportunity CRUD:** create, edit, and delete opportunities.
 - **Scoring:** 10-category deterministic opportunity score and classification.
 - **Gas-to-Power:** screening calculator for theoretical, practical, and recommended MW.
@@ -245,6 +247,12 @@ Use `docs/thesis-deck-outline.md` as the 12-slide narrative for explaining the b
 Investor and partner one-pagers are available in `docs/`, including materials for investors, operators, EPC/vendor partners, offtakers, and advisor recruiting.
 
 Open `http://localhost:3000/partners` to see a simple in-app summary of the materials and how each audience should be approached.
+
+## Map/GIS View
+
+Add latitude and longitude to an opportunity using decimal degrees, then open the opportunity Map page from the detail page or dashboard action area.
+
+V1 uses an embedded OpenStreetMap view and external map links for quick location review. It does not require API keys and does not perform full GIS, land, pipeline, substation, road, environmental, or interconnection analysis.
 
 ## Known Limitations
 

@@ -48,6 +48,12 @@ export default async function OpportunityDetailPage({
               Run Score
             </Link>
             <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-sky-200 px-4 text-sm font-semibold text-sky-700 transition hover:bg-sky-50"
+              href={`/opportunities/${opportunity.id}/map`}
+            >
+              Map
+            </Link>
+            <Link
               className="inline-flex h-10 items-center justify-center rounded-md border border-blue-200 px-4 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
               href={`/opportunities/${opportunity.id}/gas-to-power`}
             >

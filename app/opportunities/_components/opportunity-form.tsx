@@ -30,12 +30,14 @@ function Field({
   type = "text",
   required = false,
   defaultValue,
+  helperText,
 }: {
   label: string;
   name: string;
   type?: string;
   required?: boolean;
   defaultValue?: string | number | null;
+  helperText?: string;
 }) {
   return (
     <label className="grid gap-1.5 text-sm font-medium text-zinc-700">
@@ -48,6 +50,9 @@ function Field({
         required={required}
         defaultValue={value(defaultValue)}
       />
+      {helperText ? (
+        <span className="text-xs font-normal text-zinc-500">{helperText}</span>
+      ) : null}
     </label>
   );
 }
@@ -142,12 +147,19 @@ export function OpportunityForm({
           defaultValue={opportunity?.locationState}
         />
         <Field label="City / Area" name="locationCity" defaultValue={opportunity?.locationCity} />
-        <Field label="Latitude" name="latitude" type="number" defaultValue={opportunity?.latitude} />
+        <Field
+          label="Latitude"
+          name="latitude"
+          type="number"
+          defaultValue={opportunity?.latitude}
+          helperText="Use decimal degrees, for example 31.9686, -99.9018."
+        />
         <Field
           label="Longitude"
           name="longitude"
           type="number"
           defaultValue={opportunity?.longitude}
+          helperText="Use decimal degrees, for example 31.9686, -99.9018."
         />
         <Field label="Owner Name" name="ownerName" defaultValue={opportunity?.ownerName} />
         <Field label="Operator Name" name="operatorName" defaultValue={opportunity?.operatorName} />
